@@ -1,0 +1,67 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{amsmath}
+\usepackage{bm} % for bold math symbols
+\usepackage{booktabs} % better tables
+\usepackage[left=.4in,right=.2in,top=.4in,bottom=.2in]{geometry} % margins
+\usepackage{caption} % for subfigures
+\usepackage[T1]{fontenc} % see http://goo.gl/KXXek
+\usepackage{graphicx} % obviously for graphics
+\usepackage{lscape}
+\usepackage{listings} % source code
+\usepackage{latexsym} % MBE template for some fonts
+\usepackage{mathtools} % an extension to amsmath to fix bugs
+\usepackage{multirow} % column cells that span multiple rows
+\usepackage{natbib} % nicer references
+\usepackage{paralist} % inline lists
+\usepackage[section]{placeins} % keep figures and table inside section
+\usepackage{setspace} % for line spacing
+\usepackage{subfig} % for subfigures
+
+\begin{document}
+
+<<setup,include=FALSE>>=
+library(knitr)
+rm(list=ls())
+setwd("/home/jrm/scm/tibisay_cephalopods/sims/sim8")
+## set global chunk options
+opts_chunk$set(fig.path='figures/',fig.align='center',fig.show='hold',cache=T) #$
+options(formatR.arrow=TRUE,width=90)
+@
+
+\begin{itemize}
+\item Simulation under the null for branch-site model A
+\item Symmetric, 8-taxon tree with half the tree in the foreground\\
+  The total tree length is 6.\\
+  tree: (((A\#1:0.428571,B\#1:0.428571)\#1:0.428571,(C\#1:0.428571,D\#1:0.428571)\#1:0.428571)\#1:0.428571,\\((E:0.428571,F:0.428571):0.428571,(G:0.428571,H:0.428571):0.428571):0.428571);
+\item $\kappa=2.0$ $p_0=0.475$ $p_1=0.475$ $\omega_0=0$
+\end{itemize}
+
+<<data,echo=FALSE,cache=F>>=
+
+lnls <- read.csv("./lnLs.csv")
+params <- read.csv("./params.csv")
+
+big.w <- length(which(params$w2a_f>10))
+params$w2a_f[params$w2a_f>10]=10
+params$w2b_f[params$w2b_f>10]=10
+
+x <- seq(0,6,length.out=1000)
+lrt0 <- 2*(lnls$c0-lnls$null)
+plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='')
+points(x,pchisq(x,1),,col=8,type='l')
+points(sort(lrt0),c(1:length(lrt0))/length(lrt0),col=2,type='l')
+points(sort(lrt0[params$w2b_f>1]),c(1:length(lrt0[params$w2b_f>1]))/length(lrt0[params$w2b_f>1]),col=4,type='l')
+legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'C=0',bquote("C=0 ("*omega[2]*">1, n="*.(length(which(params$w2b_f>1)))*")")),col=c(1,8,2,4),pch=c(16,16,16,16))
+
+par(mfrow=c(2,3))
+hist(params$p0,xlab="p0",main='')
+hist(params$p1,xlab="p1",main='')
+hist(params$p2a,xlab="p2a",main='')
+hist(params$p2b,xlab="p2b",main='')
+hist(params$w0_b,xlab="w0",main='')
+hist(params$w2b_f,xlab="w2",,main=bquote(.(big.w)~omega[2]*">= 10"))
+@
+
+
+\end{document}

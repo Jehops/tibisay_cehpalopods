@@ -1,0 +1,119 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{amsmath}
+\usepackage{bm} % for bold math symbols
+\usepackage{booktabs} % better tables
+\usepackage[left=.4in,right=.2in,top=.4in,bottom=.2in]{geometry} % margins
+\usepackage{caption} % for subfigures
+\usepackage[T1]{fontenc} % see http://goo.gl/KXXek
+\usepackage{graphicx} % obviously for graphics
+\usepackage{lscape}
+\usepackage{listings} % source code
+\usepackage{latexsym} % MBE template for some fonts
+\usepackage{mathtools} % an extension to amsmath to fix bugs
+\usepackage{multirow} % column cells that span multiple rows
+\usepackage{natbib} % nicer references
+\usepackage{paralist} % inline lists
+\usepackage[section]{placeins} % keep figures and table inside section
+\usepackage{setspace} % for line spacing
+\usepackage{subfig} % for subfigures
+%\usepackage{subcaption} % for subfigures (can't be used with subfig)
+%\usepackage{tikz}
+%\usepackage{tikz-qtree}
+%\usetikzlibrary{arrows}
+
+\begin{document}
+
+<<setup,include=FALSE>>=
+library(knitr)
+rm(list=ls())
+setwd("/home/jrm/scm/tibisay_cephalopods/sims/sim3")
+## set global chunk options
+opts_chunk$set(fig.path='figures/',fig.align='center',fig.show='hold',cache=T) #$
+options(formatR.arrow=TRUE,width=90)
+## require(entropy)
+@
+
+\begin{itemize}
+\item Simulation under the null for branch-site model A
+\item Symmetric, 8-taxon tree with one foreground branch \\
+  The total tree length is 3.\\
+  tree: (((A\#1:0.214286,B:0.214286):0.214286,(C:0.214286,D:0.214286):0.214286):0.214286,\\((E:0.214286,F:0.214286):0.214286,(G:0.214286,H:0.214286):0.214286):0.214286);
+\item $\kappa=2.0$ $p_0=0.75$ $p_{1}=0.25$ $\omega_0=0.3$
+\end{itemize}
+
+<<data,echo=FALSE,cache=F>>=
+
+lnls <- read.csv("./lnLs.csv")
+params <- read.csv("./params.csv")
+
+big.w <- length(which(params$w2a_f>10))
+params$w2a_f[params$w2a_f>10]=10
+params$w2b_f[params$w2b_f>10]=10
+
+x <- seq(0,6,length.out=1000)
+lrt0 <- 2*(lnls$c0-lnls$null)
+plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='')
+points(x,pchisq(x,1),,col=8,type='l')
+points(sort(lrt0),c(1:length(lrt0))/length(lrt0),col=2,type='l')
+points(sort(lrt0[params$w2b_f>1]),c(1:length(lrt0[params$w2b_f>1]))/length(lrt0[params$w2b_f>1]),col=4,type='l')
+legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'C=0',bquote("C=0 ("*omega[2]*">1, n="*.(length(which(params$w2b_f>1)))*")")),col=c(1,8,2,4),pch=c(16,16,16,16))
+
+par(mfrow=c(2,3))
+hist(params$p0,xlab="p0",main='')
+hist(params$p1,xlab="p1",main='')
+hist(params$p2a,xlab="p2a",main='')
+hist(params$p2b,xlab="p2b",main='')
+hist(params$w0_b,xlab="w0",main='')
+hist(params$w2b_f,xlab="w2",,main=bquote(.(big.w)~omega[2]*">= 10"))
+@
+
+\clearpage
+
+\begin{lstlisting}
+It looks like trouble when p0+p1 is close to 1.
+
+> subset(params,w2>=10)
+     p0      p1     p2a     p2b      w0        w2
+0.66806 0.32417 0.00523 0.00254 0.29262  11.40713
+0.74277 0.25290 0.00323 0.00110 0.29100  63.02795
+0.83833 0.15722 0.00375 0.00070 0.34804 663.19371
+0.71539 0.27553 0.00656 0.00253 0.28696  45.42719
+0.76112 0.23217 0.00514 0.00157 0.29497  28.47234
+0.78927 0.20013 0.00845 0.00214 0.32839 998.99965
+0.72141 0.27009 0.00619 0.00232 0.28625  90.59841
+0.75694 0.23114 0.00913 0.00279 0.32758 159.83998
+0.69529 0.28448 0.01436 0.00587 0.30877  11.14156
+0.75828 0.23864 0.00235 0.00074 0.32390 999.00000
+0.77731 0.21691 0.00452 0.00126 0.30700  42.87754
+0.68340 0.30325 0.00925 0.00410 0.27158  12.87590
+0.68478 0.30585 0.00647 0.00289 0.27623  80.35478
+0.76661 0.22596 0.00574 0.00169 0.27745 998.99969
+0.67546 0.31922 0.00361 0.00171 0.27283  11.40887
+0.79381 0.19562 0.00848 0.00209 0.31121  14.57206
+0.71717 0.27323 0.00695 0.00265 0.24705  15.84686
+0.77950 0.21497 0.00433 0.00119 0.33214 692.41967
+0.77098 0.21896 0.00783 0.00222 0.30197  13.50125
+0.79101 0.20304 0.00474 0.00122 0.29936 672.10568
+0.77265 0.20377 0.01866 0.00492 0.31806  10.93935
+0.71447 0.27844 0.00510 0.00199 0.29404  14.42786
+0.69474 0.29347 0.00829 0.00350 0.27703  18.76982
+0.74259 0.23647 0.01589 0.00506 0.30013  64.98670
+0.73578 0.25558 0.00641 0.00223 0.29561  36.50829
+0.66396 0.32715 0.00595 0.00293 0.28102  17.73306
+0.80797 0.17788 0.01160 0.00255 0.31680  11.42403
+0.83595 0.15437 0.00817 0.00151 0.31905  15.49704
+0.77730 0.21161 0.00872 0.00237 0.29618  42.27299
+0.73124 0.26019 0.00632 0.00225 0.31894 998.99969
+0.71541 0.28216 0.00174 0.00069 0.29553  52.92020
+0.67430 0.31836 0.00498 0.00235 0.25440  21.75579
+0.81092 0.18177 0.00597 0.00134 0.32588  13.58634
+0.72490 0.26573 0.00686 0.00251 0.28425  25.39505
+0.72122 0.27454 0.00307 0.00117 0.25432  35.11208
+0.71240 0.26782 0.01438 0.00541 0.29446  12.35679
+0.69327 0.29980 0.00484 0.00209 0.29772  14.21954
+0.69064 0.30322 0.00426 0.00187 0.25633  31.60063
+0.71727 0.27603 0.00484 0.00186 0.25009  10.37322
+\end{lstlisting}
+
+\end{document}

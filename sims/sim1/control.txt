@@ -1,0 +1,27 @@
+[TYPE] CODON 1 //  codon simulation using algorithm from method 1
+
+[SETTINGS]
+  [ancestralprint]           FALSE     // NEW, SAME or FALSE
+  [output]                   PHYLIP    // FASTA, NEXUS, PHYLIP or PHYLIPT
+  [phylipextension]          phy       // any alpha-numeric string
+  [nexusextension]           nex       // any alpha-numeric string
+  [fastaextension]           fas       // any alpha-numeric string
+  [randomseed]               1568746   // any integer
+  [printrates]               TRUE      // FALSE or TRUE
+  [insertaslowercase]        TRUE      // FALSE or TRUE
+  [markdeletedinsertions]    FALSE     // FALSE or TRUE
+  [printcodonsasaminoacids]  FALSE     // FALSE or TRUE
+  [fileperrep]               FALSE     // FALSE or TRUE
+
+//                         k   p0   p1/2b     w0   w1/2b w2a
+[MODEL]      bg [submodel] 2.0 0.75 0.2105263 0.40 1.00  0.40
+[MODEL]      fg [submodel] 2.0 0.75 0.2105263 0.40 1.00  1.00
+
+[TREE]       t1 ((A:1.0,B:1.0):1.0,(C:1.0,D:1.0):1.0);
+[treelength] 3
+
+[BRANCHES]   b1 ((A#fg,B#bg)#bg,(C#bg,D#bg)#bg)#bg;
+
+[PARTITIONS] p1 [t1 b1 500]
+
+[EVOLVE]     p1 1000 out
