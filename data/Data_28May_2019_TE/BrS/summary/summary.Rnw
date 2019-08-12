@@ -1,0 +1,68 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{amsmath}
+\usepackage{bm} % for bold math symbols
+\usepackage{booktabs} % better tables
+\usepackage[left=.4in,right=.2in,top=.4in,bottom=.2in]{geometry} % margins
+\usepackage{caption} % for subfigures
+\usepackage[T1]{fontenc} % see http://goo.gl/KXXek
+\usepackage{graphicx} % obviously for graphics
+\usepackage{lscape}
+\usepackage{listings} % source code
+\usepackage{latexsym} % MBE template for some fonts
+\usepackage{mathtools} % an extension to amsmath to fix bugs
+\usepackage{multirow} % column cells that span multiple rows
+\usepackage{natbib} % nicer references
+\usepackage{paralist} % inline lists
+\usepackage[section]{placeins} % keep figures and table inside section
+\usepackage{setspace} % for line spacing
+\usepackage{subfig} % for subfigures
+
+\begin{document}
+
+<<setup,include=FALSE>>=
+library(ape)
+library(knitr)
+rm(list=ls())
+setwd("/home/jrm/scm/tibisay_cephalopods.git/data/Data_28May_2019_TE/BrS/summary")
+## set global chunk options
+opts_chunk$set(fig.path='figures/',fig.align='center',fig.show='hold',cache=T) #$
+options(formatR.arrow=TRUE,width=90)
+@
+
+\section*{Tibisay's Cephalopod Data}
+
+\begin{itemize}
+  \setlength\itemsep{0em}
+\item Summary of 10 branch-site tests of positive selection
+\item Each test on a single branch
+\item Same alignment and tree used for each test
+\item Concatenated alignment has 35 sequences 3873 codons long
+\end{itemize}
+
+<<data,echo=F,cache=F>>=
+lnls <- read.csv("./lnls2.csv")
+lnls
+@
+
+<<params,echo=F,cache=F>>=
+params <- read.csv("./params.csv")
+params
+@
+
+\clearpage
+
+\begin{figure}
+%  \centering
+
+  <<tree,echo=F,cache=F>>=
+  tree <- read.tree("./ceph.tre");
+  plot(tree,no.margin=T,cex=0.75,type="phylogram",edge.width=2,lab4ut="axial",show.node.label=T)
+  add.scale.bar()
+  @
+
+  \caption[]{Tree with each foreground branch tested labelled \#1 through \#10.}
+  \label{fig:ceph_tree}
+\end{figure}
+  
+\end{document}
