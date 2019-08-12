@@ -1,0 +1,121 @@
+* Outline of Cephalopod Study
+** Completed Simulations
+*** Simulations under H₀
+    - All simulations except 1. use an 8-taxon tree
+    - Simulations 1-4 used 500-codon sequences and simulations 5-11 used
+      5000-codon sequences
+    - All Simulations were with 1000 replicates
+
+    [[https://ftfl.ca/misc/bsa/bsa_sim1_4-taxon-tree.pdf][1.]] One foreground branch at a tip of symmetric 4-taxon tree; total tree
+    length 3; p₀=0.75, p1=0.21, ω₀=0.4
+    - Conservative behaviour unless we condition on ω₂>1, in which case we
+      match a χ²₁
+    - Distribution of MLEs look good except some inflated ω₂ estimates
+
+    [[https://ftfl.ca/misc/bsa/bsa_sim2_8-taxon-tree.pdf][2.]] One foreground branch at a tip; total tree length 3; p₀=0.7, p₁=0.2,
+    ω₀=0.3
+    - Conservative behaviour unless we condition on ω₂>1, in which case we
+      match a χ²₁
+    - Distribution of MLEs look good except some inflated ω₂ estimates
+
+    [[https://ftfl.ca/misc/bsa/bsa_sim3_8-taxon-tree.pdf][3.]] One foreground branch at a tip; total tree length 3; p₀0.75, p₁=0.25,
+    ω₀=0.3
+    - Clear conservative behaviour unless we condition on ω₂>1, in which case
+      we match a χ²₁
+    - Distribution of MLEs look good except some inflated ω₂ estimates
+
+    [[https://ftfl.ca/misc/bsa/bsa_sim4_8-taxon-tree.pdf][4.]] One foreground branch at a tip; total tree length 3; p₀=0.25, p₁=0.75,
+    ω₀=0.3
+    - Slight conservative behaviour unless we condition on ω₂>1, in which
+      case we nearly match a χ²₁ (slightly anti-conservative relative to χ²₁
+      distribution)
+    - Distribution of MLEs look good except some inflated ω₂ estimates
+
+    [[https://ftfl.ca/misc/bsa/bsa_sim5_8-taxon-tree.pdf][5.]] One foreground branch at a tip; foreground branch is 1/10 the length of
+    the other branches; total tree length 6; p₀=0.5, p₁=0.5, ω₀=0
+    - Very conservative behaviour, even when we condition on ω₂>1 (386 of the
+      ω₂ estimates).
+    - There are left tails on the p₀ and p₁ MLE distributions and right tails
+      on the p₂ₐ and p₂b and ω₂ MLEs.
+
+    [[https://ftfl.ca/misc/bsa/bsa_sim6_8-taxon-tree.pdf][6.]] One foreground branch at a tip; foreground branch 10x the length of the
+    other branches; total tree length 6; p₀=0.5, p₁=0.5, ω₀=0
+    - Still very conservative behaviour, even when we condition on ω₂>1 (924 of
+      the ω₂ estimates).
+    - Distribution of MLEs look good except some inflated ω₂ estimates
+
+    [[https://ftfl.ca/misc/bsa/bsa_sim7_8-taxon-tree.pdf][7.]] Half of tree in foreground; total tree length 6; p₀=0.5, p₁=0.5, ω₀=0
+    - Anti-conservative behaviour; conditioning on ω₂>1 (674) shows slight
+      anti-conservative behaviour relative to χ²₁
+    - MLEs look good (boundary issues); some inflated ω₂ estimates
+
+    [[https://ftfl.ca/misc/bsa/bsa_sim8_8-taxon-tree.pdf][8.]] Half of tree in foreground; total tree length 6; p₀=0.475, p₁=0.475, ω₀=0
+    - Anti-conservative behaviour; conditioning on ω₂>1 (553) shows
+      anti-conservative behaviour relative to χ²₁
+    - MLEs look good (boundary issues only with ωₒ); no inflated ω₂ estimates
+
+    [[https://ftfl.ca/misc/bsa/bsa_sim9_8-taxon-tree.pdf][9.]] Half of tree in foreground; total tree length 6; p₀=0.375, p₁=0.375, ω₀=0
+    - Anti-conservative behaviour; conditioning on ω₂>1 (531) shows
+      anti-conservative behaviour relative to χ²₁
+    - MLEs look good (boundary issues only with ωₒ); no inflated ω₂ estimates
+
+    [[https://ftfl.ca/misc/bsa/zbsa_sim10_8-taxon-tree.pdf][10.]] One internal branch in foreground 1/10th the length; total tree length
+    6; p₀=0.5, p₁=0.5, ω₀=0
+    - Very conservative behaviour; conditioning on ω₂>1 (571) shows very
+      conservative behaviour as well.
+    - MLEs are wide (p₀/p₁ long left tails, p₂ₐ/p₂b long right tails); ω₂ has
+      inflated estimates
+
+    [[https://ftfl.ca/misc/bsa/zbsa_sim11_8-taxon-tree.pdf][11.]] One internal branch in foreground 10x the length; total tree length 6;
+    p₀=0.5, p₁=0.5, ω₀=0
+    - Still conservative behaviour, but less so with the longer branch;
+      conditioning on ω₂>1 (421) shows only very mild conservative behaviour
+      relative to χ²₁ mixture.
+    - Weight MLEs are bimodal; ω₂ has inflated estimates
+
+*** Conclusions
+    - Single branch are not sufficiently influential to cause anti-conservative behaviour
+      - We see anti-conservative behaviour with information sparseness
+    - With more of the tree in the foreground, we see similar behaviour to M2a
+    - If we restrict to simulations with ω₂>1, we often match χ²₁
+    - With one foreground branch, the models are so conservative, a
+      re-calibration may be called for
+    - The LR statistics distributions looks very different depending on how the
+      foreground is chosen.  This is a problem.
+    - Penalization could still be relevant when the foreground takes up more of
+      the tree.
+    - When p0+p1<1, the theory of Self and Liang applies and the LRS
+      distributions should match a χ² mixture.  Perhaps running simulation 9
+      with penalization to support this.
+    - When p₀+p₁=1, the theory of Self and Liang does not apply (why) and we
+      expect conservative behaviour.
+    - p0+p1=1 is the better H0 due to adaptive evolution (from a MutSel
+      perspective).  This can occur when going from ω<1 to...??.  That's exactly
+      what p₂ₐ corresponds to.
+    - Inflated ω₂ is still a problem.
+    - Corrections for multiple tests assume that the probability of a type I
+      error is the same for each test, but that's not the case here.
+
+** Complete Celphalopod Data Analyses
+
+   The [[https://ftfl.ca/misc/bsa/cephalopod.pdf][Celphalopod Data]] has 35 taxa with 3738 codons (3539 without ambiguous
+   sites).  Each of the 10 branch-site tests is on a single branch.  The LR
+   tests for #2, 4, 5, 6, and 8 were significant after correcting for multiple
+   tests.
+
+** SBA tests (in progress)
+
+** Proposed Simulations
+   
+   Simulate 35 taxa 3500 codons using tree typology and foreground branches from
+   Cephalopod data both under the null and with various ω>1.  Could also run
+   these under SBA to discover MLE distributions.
+   
+** Planned Tests to assess Biological Conclusions
+
+   - test for double/triple (DT) nucleotide changes
+   - test for recombination
+   - test for variation in dS
+   - rerun the tests for Muse and Gaut (option 5 in codeml), which models
+     transition probabilities in the Q matrix as a proportion to the target
+     nucleotide
