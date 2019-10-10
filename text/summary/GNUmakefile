@@ -1,0 +1,16 @@
+DOC:=ceph
+R_OPTS:=--no-save --no-restore --no-init-file --no-site-file
+
+.PHONY: display
+display: ${DOC}.pdf
+	#pv ${>} &
+
+${DOC}.pdf: ${DOC}.Rnw
+	R ${R_OPTS} -e "library(knitr);knit('${<}')"
+	latexmk ${DOC}.tex
+
+.PHONY: clean
+clean:
+	${RM} -r auto cache figures/* ${DOC}.aux ${DOC}.bbl ${DOC}.blg \
+${DOC}.fdb_latexmk ${DOC}.fls ${DOC}.lof ${DOC}.log ${DOC}.lot ${DOC}.pdf \
+${DOC}.synctex.gz ${DOC}.tex ${DOC}.toc
