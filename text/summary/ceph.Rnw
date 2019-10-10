@@ -405,22 +405,22 @@ max.freq.groe <- apply(aa[,1:18],1,max.freq)
 max.freq.sepi <- apply(aa[,19:28],1,max.freq)
 max.freq.outg <- apply(aa[,30:35],1,max.freq)
 
-## How many times does the most common AA in ogeo match most common AA in the out group?
+print("How often does the most common AA in ogeo match most common AA in the out group?")
 sum(max.freq.ogeo == max.freq.outg)/length(pats.to.show)
 
-## How many times does the most common AA in loli match most common AA in the out group?
+print("How often does the most common AA in loli match most common AA in the out group?")
 sum(max.freq.loli == max.freq.outg)/length(pats.to.show)
 
-## How many times does the most common AA in groe match most common AA in the out gropu?
+print("How often does the most common AA in groe match most common AA in the out gropu?")
 sum(max.freq.groe == max.freq.outg)/length(pats.to.show)
 
-## How many times does the most common AA in ogeo match most common AA in Loli?
+print("How often does the most common AA in ogeo match most common AA in Loli?")
 sum(max.freq.ogeo == max.freq.loli)/length(pats.to.show)
 
-## How many times does the most common AA in sepi match most common AA in the out group?
+print("How often does the most common AA in sepi match most common AA in the out group?")
 sum(max.freq.sepi == max.freq.outg)/length(pats.to.show)
 
-## How many times does the most common AA in groe match most common AA in sepi?
+print("How often does the most common AA in groe match most common AA in sepi?")
 sum(max.freq.groe == max.freq.sepi)/length(pats.to.show)
 
 @ 
