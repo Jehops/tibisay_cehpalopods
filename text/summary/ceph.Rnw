@@ -1,0 +1,541 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{amsmath}
+\usepackage{bm} % for bold math symbols
+\usepackage{booktabs} % better tables
+\usepackage[left=.4in,right=.2in,top=.4in,bottom=.2in]{geometry} % margins
+\usepackage{caption} % for subfigures
+\usepackage{color,colortbl}
+\usepackage{float}
+\usepackage[T1]{fontenc} % see http://goo.gl/KXXek
+\usepackage{graphicx} % obviously for graphics
+\usepackage{geometry}
+\usepackage{latexsym} % MBE template for some fonts
+\usepackage{listings} % source code
+\usepackage{longtable}
+\usepackage{lscape}
+\usepackage{mathtools} % an extension to amsmath to fix bugs
+\usepackage{multirow} % column cells that span multiple rows
+\usepackage{natbib} % nicer references
+\usepackage{paralist} % inline lists
+\usepackage[section]{placeins} % keep figures and table inside section
+\usepackage{rotating}
+\usepackage{setspace} % for line spacing
+\usepackage{subfig} % for subfigures
+\usepackage{xcolor}
+
+\definecolor{eeaa9b}{HTML}{EEAA9B}
+\definecolor{c8c8c8}{HTML}{C8C8C8}
+
+\definecolor{vamp}{HTML}{A6CEE3}
+\definecolor{sepi}{HTML}{1F78B4}
+\definecolor{groe}{HTML}{B2DF8A}
+\definecolor{idio}{HTML}{33A02C}
+\definecolor{semi}{HTML}{FB9A99}
+\definecolor{loli}{HTML}{E31A1C}
+\definecolor{oegb}{HTML}{FDBF6F}
+\definecolor{bath}{HTML}{FF7F00}
+\definecolor{oego}{HTML}{CAB2D6}
+\definecolor{omma}{HTML}{6A3D9A}
+
+\begin{document}
+
+<<setup,include=FALSE>>=
+rm(list=ls())
+setwd("~/scm/tibisay_cephalopods.git/text/summary")
+library(ape)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+library(RColorBrewer)
+## set global chunk options
+opts_chunk$set(fig.path='./figures/',fig.align='center',fig.show='hold',cache=T) #$
+options(formatR.arrow=TRUE,width=90)
+@
+
+\section*{Data}
+There are 35 taxa with 3738 codons (3539 without ambiguous sites) in the
+concatenated alignment.  Each of the 10 branch-site tests is on a single branch.
+
+\begin{figure}[h!]
+  % \centering
+  <<tree,echo=F,cache=F>>=
+  tree <- read.tree("../../data/Data_28May_2019_TE/ceph.tre");
+  edge.colors <- rep(1,68)
+  edge.colors[c(12,14,33,34,36,38,53,54,55,59)] <- brewer.pal(n=10,name="Paired")
+  edge.widths <- rep(2,68)
+  edge.widths[c(14,33,38,53,55)] <- 6
+  plot(tree,no.margin=T,cex=0.75,type="phylogram",edge.color=edge.colors,edge.width=edge.widths,lab4ut="axial",show.node.label=F,label.offset=0.01)
+  ##edgelabels(tree$edge.length, bg="black", col="white", font=2)
+  add.scale.bar()
+  branches.tested <- c('Vampyroteuthis','Sepiida','Groenlandibelids','Idiosepius','Sepiolida','Loliginidae','Oegop_Bathy','Bathyteuthis','Oegopsida','Ommastrepidae')
+  legend(0.03,35,branches.tested,brewer.pal(n=10,name="Paired"),box.lty=0)
+  @
+  \caption[]{Tree with each foreground branch tested under a branch-site model in a different color.  Significant tests are noted with bold branches.}
+  \label{fig:ceph_tree}
+\end{figure}
+
+\clearpage
+
+\section*{Branch-Site Tests}
+<<lr,echo=F,cache=F>>=
+lr <- read.csv("../../data/Data_28May_2019_TE/BrS/summary/lnls2.csv")
+kable(lr,booktabs=T,col.names=c("Branch Tested", "H0", "Ha", "LRS", "p-value"),
+      caption="Branch-site model likelihood ratio tests.  Correcting for
+multiple tests does not change the results.",linesep="") %>%
+    kable_styling(latex_options = "striped",stripe_color="eeaa9b",stripe_index = c(2,4:6,8)) %>%
+    kable_styling(latex_options = "hold_position")
+@
+
+\clearpage
+
+\section*{SBA MLE Distributions}
+%SBA was run for the five significant branch-site tests.
+
+% \begin{figure}[h!]
+%   % \centering
+%   <<tree-sig-foreground,echo=F,cache=F>>=
+%   tree <- read.tree("../../data/Data_28May_2019_TE/ceph.tre");
+%   plot(tree,no.margin=T,cex=0.75,type="phylogram",edge.width=2,lab4ut="axial",show.node.label=T)
+%   add.scale.bar()
+%   @
+%   \caption[]{Tree with each foreground branch of interest labelled.}
+%   \label{fig:ceph_tree}
+% \end{figure}
+
+
+\subsection*{Groenlandibelids}
+
+<<Groenlandibelids.data,echo=F,cache=F>>=
+groe.params <- read.csv("../../data/Data_28May_2019_TE/SBA/Groenlandibelids_nas/mle_data/params.csv")
+groe.mean.pp <- scan("../../data/Data_28May_2019_TE/SBA/Groenlandibelids_nas/mean_site_pp.csv",sep=',')
+groe.med.pp <- scan("../../data/Data_28May_2019_TE/SBA/Groenlandibelids_nas/median_site_pp.csv",sep=',')
+@
+
+<<Groenlandibelids.plots,echo=F>>=
+par(mfrow=c(2,3))
+##hist(groe.params$k,main='',xlab='Kappa',cex.axis=1.5,cex.lab=1.5)
+hist(groe.params$p0,main='',xlab=expression(p[0]),cex.axis=1.5,cex.lab=1.5)
+hist(groe.params$p1,main='',xlab=expression(p[1]),cex.axis=1.5,cex.lab=1.5)
+hist(groe.params$p2a,main='',xlab=expression(p['2a']),cex.axis=1.5,cex.lab=1.5)
+hist(groe.params$p2b,main='',xlab=expression(p['2b']),cex.axis=1.5,cex.lab=1.5)
+hist(groe.params$w0,main='',xlab=expression(w[0]),cex.axis=1.5,cex.lab=1.5)
+hist(groe.params$w2,main='',xlab=expression(w[2]),xlim=c(999,999),cex.axis=1.5,cex.lab=1.5)
+@
+
+\clearpage
+
+\subsection*{Loliginidae}
+<<Loliginidae.data,echo=F,cache=F>>=
+loli.params <- read.csv("../../data/Data_28May_2019_TE/SBA/Loliginidae/mle_data/params.csv")
+loli.params$w2[loli.params$w2>10] <- 10
+loli.mean.pp <- scan("../../data/Data_28May_2019_TE/SBA/Loliginidae/mean_site_pp.csv",sep=',')
+loli.med.pp <- scan("../../data/Data_28May_2019_TE/SBA/Loliginidae/median_site_pp.csv",sep=',')
+@
+
+<<Loliginidae.plots,echo=F>>=
+par(mfrow=c(2,3))
+#hist(loli.params$k,main='',xlab='Kappa',cex.axis=1.5,cex.lab=1.5)
+hist(loli.params$p0,main='',xlab=expression(p[0]),cex.axis=1.5,cex.lab=1.5)
+hist(loli.params$p1,main='',xlab=expression(p[1]),cex.axis=1.5,cex.lab=1.5)
+hist(loli.params$p2a,main='',xlab=expression(p['2a']),cex.axis=1.5,cex.lab=1.5)
+hist(loli.params$p2b,main='',xlab=expression(p['2b']),cex.axis=1.5,cex.lab=1.5)
+hist(loli.params$w0,main='',xlab=expression(w[0]),cex.axis=1.5,cex.lab=1.5)
+hist(loli.params$w2,main='',xlab=expression(w[2]),cex.axis=1.5,cex.lab=1.5)
+@
+
+\clearpage
+
+\subsection*{Oegop\_Bathy}
+<<OegopBathy.data,echo=F,cache=F>>=
+oego.params <- read.csv("../../data/Data_28May_2019_TE/SBA/Oegop_Bathy/mle_data/params.csv")
+oego.params$w2[oego.params$w2>10] <- 10
+oego.mean.pp <- scan("../../data/Data_28May_2019_TE/SBA/Oegop_Bathy/mean_site_pp.csv",sep=',')
+oego.med.pp <- scan("../../data/Data_28May_2019_TE/SBA/Oegop_Bathy/median_site_pp.csv",sep=',')
+@
+
+<<OegopBathy.plots,echo=F>>=
+par(mfrow=c(2,3))
+#hist(oego.params$k,main='',xlab='Kappa',cex.axis=1.5,cex.lab=1.5)
+hist(oego.params$p0,main='',xlab=expression(p[0]),cex.axis=1.5,cex.lab=1.5)
+hist(oego.params$p1,main='',xlab=expression(p[1]),cex.axis=1.5,cex.lab=1.5)
+hist(oego.params$p2a,main='',xlab=expression(p['2a']),cex.axis=1.5,cex.lab=1.5)
+hist(oego.params$p2b,main='',xlab=expression(p['2b']),cex.axis=1.5,cex.lab=1.5)
+hist(oego.params$w0,main='',xlab=expression(w[0]),cex.axis=1.5,cex.lab=1.5)
+hist(oego.params$w2,main='',xlab=expression(w[2]),cex.axis=1.5,cex.lab=1.5)
+@
+
+\clearpage
+
+\subsection*{Oegopsida}
+<<Oegopsida.data,echo=F,cache=F>>=
+oegp.params <- read.csv("../../data/Data_28May_2019_TE/SBA/Oegopsida/mle_data/params.csv")
+oegp.params$w2[oegp.params$w2>10] <- 10
+oegp.mean.pp <- scan("../../data/Data_28May_2019_TE/SBA/Oegopsida/mean_site_pp.csv",sep=',')
+oegp.med.pp <- scan("../../data/Data_28May_2019_TE/SBA/Oegopsida/median_site_pp.csv",sep=',')
+@
+
+<<Oegopsida.plots,echo=F>>=
+par(mfrow=c(2,3))
+#hist(oegp.params$k,main='',xlab='Kappa',cex.axis=1.5,cex.lab=1.5)
+hist(oegp.params$p0,main='',xlab=expression(p[0]),cex.axis=1.5,cex.lab=1.5)
+hist(oegp.params$p1,main='',xlab=expression(p[1]),cex.axis=1.5,cex.lab=1.5)
+hist(oegp.params$p2a,main='',xlab=expression(p['2a']),cex.axis=1.5,cex.lab=1.5)
+hist(oegp.params$p2b,main='',xlab=expression(p['2b']),cex.axis=1.5,cex.lab=1.5)
+hist(oegp.params$w0,main='',xlab=expression(w[0]),cex.axis=1.5,cex.lab=1.5)
+hist(oegp.params$w2,main='',xlab=expression(w[2]),cex.axis=1.5,cex.lab=1.5)
+@
+
+\clearpage
+
+\subsection*{Sepiida}
+<<Sepiida.data,echo=F,cache=F>>=
+sepi.params <- read.csv("../../data/Data_28May_2019_TE/SBA/Sepiida/mle_data/params.csv")
+sepi.mean.pp <- scan("../../data/Data_28May_2019_TE/SBA/Sepiida/mean_site_pp.csv",sep=',')
+sepi.med.pp <- scan("../../data/Data_28May_2019_TE/SBA/Sepiida/median_site_pp.csv",sep=',')
+@
+
+<<Sepiida.plots,echo=F,cache=F>>=
+par(mfrow=c(2,3))
+#hist(sepi.params$k,main='',xlab='Kappa',cex.axis=1.5,cex.lab=1.5)
+hist(sepi.params$p0,main='',xlab=expression(p[0]),cex.axis=1.5,cex.lab=1.5)
+hist(sepi.params$p1,main='',xlab=expression(p[1]),cex.axis=1.5,cex.lab=1.5)
+hist(sepi.params$p2a,main='',xlab=expression(p['2a']),cex.axis=1.5,cex.lab=1.5)
+hist(sepi.params$p2b,main='',xlab=expression(p['2b']),cex.axis=1.5,cex.lab=1.5)
+hist(sepi.params$w0,main='',xlab=expression(w[0]),cex.axis=1.5,cex.lab=1.5)
+hist(sepi.params$w2,main='',xlab=expression(w[2]),xlim=c(999,999),cex.axis=1.5,cex.lab=1.5)
+@
+
+\clearpage
+
+\section*{Site Classification}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{*{10}l}
+    \toprule
+    & \multicolumn{3}{c}{BEB} & \multicolumn{3}{c}{SBA (mean)} & \multicolumn{3}{c}{SBA (median)}  \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+    Branch             & 0.5 & 0.95 & 0.99 & 0.5 & 0.95 & 0.99 & 0.5 & 0.95 & 0.99 \\
+    \cmidrule(lr){1-1} \cmidrule(lr){2-2} \cmidrule(lr){3-3} \cmidrule(lr){4-4} \cmidrule(lr){5-5} \cmidrule(lr){6-6} \cmidrule(lr){7-7} \cmidrule(lr){8-8} \cmidrule(lr){9-9} \cmidrule(lr){10-10}
+    Groenlandibelids   & 0   & 0    & 0   & 127  & 38   & 9    & 132 & 51   & 17   \\
+    Loliginidae        & 163 & 19   & 13  & 141  & 12   & 7    & 143 & 86   & 12   \\
+    Oegop\_Bathy       & 0   & 0    & 0   & 66   & 18   & 2    & 71  & 32   & 16   \\
+    Oegopsida          & 0   & 0    & 0   & 29   & 10   & 2    & 32  & 15   & 6    \\
+    Sepiida            & 50  & 1    & 0   & 201  & 77   & 56   & 201 & 91   & 67   \\
+    \bottomrule
+  \end{tabular}
+  \caption{Number of sites classified to be under positive selection for BEB, SBA (mean posterior probabilities), and SBA (median posterior probabilities) for three posterior probability cut-offs: 0.5, 0.95, and 0.99.}
+  \label{tab:brs-sites}
+\end{table}
+
+\clearpage
+
+\section*{Confounding Effects}
+
+<<crosss.tab,echo=F,results='hide'>>=
+ps.sites <- data.frame(sepi.mean.pp>=0.5,groe.mean.pp>=0.5,loli.mean.pp>=0.5,oego.mean.pp>=0.5,oegp.mean.pp>=0.5)
+colnames(ps.sites) <- c('Sepiida','Groenlandibelids','Loliginidae','Oegop_Bathy','Oegopsida')
+round(table(ps.sites$Sepiida,ps.sites$Groenlandibelids)/3539*100,1)
+round(table(ps.sites$Sepiida,ps.sites$Loliginidae)/3539*100,1)
+round(table(ps.sites$Sepiida,ps.sites$Oegop_Bathy)/3539*100,1)
+round(table(ps.sites$Sepiida,ps.sites$Oegopsida)/3539*100,1)
+
+round(table(ps.sites$Groenlandibelids,ps.sites$Loliginidae)/3539*100,1)
+round(table(ps.sites$Groenlandibelids,ps.sites$Oegop_Bathy)/3539*100,1)
+round(table(ps.sites$Groenlandibelids,ps.sites$Oegopsida)/3539*100,1)
+
+round(table(ps.sites$Loliginidae,ps.sites$Oegop_Bathy)/3539*100,1)
+round(table(ps.sites$Loliginidae,ps.sites$Oegopsida)/3539*100,1)
+
+round(table(ps.sites$Oegop_Bathy,ps.sites$Oegopsida)/3539*100,1)
+
+ps.sites <- data.frame(sepi.mean.pp>=0.95,groe.mean.pp>=0.95,loli.mean.pp>=0.95,oego.mean.pp>=0.95,oegp.mean.pp>=0.95)
+colnames(ps.sites) <- c('Sepiida','Groenlandibelids','Loliginidae','Oegop_Bathy','Oegopsida')
+round(table(ps.sites$Sepiida,ps.sites$Groenlandibelids)/3539*100,1)
+round(table(ps.sites$Sepiida,ps.sites$Loliginidae)/3539*100,1)
+round(table(ps.sites$Sepiida,ps.sites$Oegop_Bathy)/3539*100,1)
+round(table(ps.sites$Sepiida,ps.sites$Oegopsida)/3539*100,1)
+
+round(table(ps.sites$Groenlandibelids,ps.sites$Loliginidae)/3539*100,1)
+round(table(ps.sites$Groenlandibelids,ps.sites$Oegop_Bathy)/3539*100,1)
+round(table(ps.sites$Groenlandibelids,ps.sites$Oegopsida)/3539*100,1)
+
+round(table(ps.sites$Loliginidae,ps.sites$Oegop_Bathy)/3539*100,1)
+round(table(ps.sites$Loliginidae,ps.sites$Oegopsida)/3539*100,1)
+
+round(table(ps.sites$Oegop_Bathy,ps.sites$Oegopsida)/3539*100,1)
+
+ps.sites <- data.frame(sepi.mean.pp>=0.99,groe.mean.pp>=0.99,loli.mean.pp>=0.99,oego.mean.pp>=0.99,oegp.mean.pp>=0.99)
+colnames(ps.sites) <- c('Sepiida','Groenlandibelids','Loliginidae','Oegop_Bathy','Oegopsida')
+round(table(ps.sites$Sepiida,ps.sites$Groenlandibelids)/3539*100,1)
+round(table(ps.sites$Sepiida,ps.sites$Loliginidae)/3539*100,1)
+round(table(ps.sites$Sepiida,ps.sites$Oegop_Bathy)/3539*100,1)
+round(table(ps.sites$Sepiida,ps.sites$Oegopsida)/3539*100,1)
+
+round(table(ps.sites$Groenlandibelids,ps.sites$Loliginidae)/3539*100,1)
+round(table(ps.sites$Groenlandibelids,ps.sites$Oegop_Bathy)/3539*100,1)
+round(table(ps.sites$Groenlandibelids,ps.sites$Oegopsida)/3539*100,1)
+
+round(table(ps.sites$Loliginidae,ps.sites$Oegop_Bathy)/3539*100,1)
+round(table(ps.sites$Loliginidae,ps.sites$Oegopsida)/3539*100,1)
+
+round(table(ps.sites$Oegop_Bathy,ps.sites$Oegopsida)/3539*100,1)
+
+@
+
+To determine if the sites in one branch is causing inference of positive selection in another branch, a cross-tabulation of flagged sites is shown (Table \ref{tab:sites-comp-sba}).
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{r*{4}c}
+    \toprule
+                       & Groenlandibelids & Loliginidae  & Oegop\_Bathy & Oegopsida \\
+    \cmidrule(lr){2-2} \cmidrule(lr){3-3} \cmidrule(lr){4-4} \cmidrule(lr){5-5}
+    Sepiida            & \begin{tabular}{cccc}&F&&T\\F&97.0&\vline&0.8\\\cmidrule{2-4}T&1.9&\vline&0.2\end{tabular} & \begin{tabular}{cccc}&F&&T\\F&97.5&\vline&0.3\\\cmidrule{2-4}T&2.2&\vline&0.0\end{tabular} & \begin{tabular}{cccc}&F&&T\\F&97.4&\vline&0.4\\\cmidrule{2-4}T&2.1&\vline&0.1\end{tabular} & \begin{tabular}{cccc}&F&&T\\F&97.6&\vline&0.3\\\cmidrule{2-4}T&2.1&\vline&0.0\end{tabular} \\[1.0cm]
+    \rowcolor{c8c8c8}
+    Groenlandibelids   &                                                                                            & \begin{tabular}{cccc}&F&&T\\F&98.6&\vline&0.3\\\cmidrule{2-4}T&1.1&\vline&0.0\end{tabular} & \begin{tabular}{cccc}&F&&T\\F&98.4&\vline&0.5\\\cmidrule{2-4}T&1.0&\vline&0.0\end{tabular} & \begin{tabular}{cccc}&F&&T\\F&98.6&\vline&0.3\\\cmidrule{2-4}T&1.1&\vline&0.0\end{tabular} \\[1.0cm]
+    Loliginidae        &                                                                                            &                                                                                            & \begin{tabular}{cccc}&F&&T\\F&99.7&\vline&0.1\\\cmidrule{2-4}T&0.2&\vline&0.0\end{tabular} & \begin{tabular}{cccc}&F&&T\\F&99.7&\vline&0.1\\\cmidrule{2-4}T&0.2&\vline&0.0\end{tabular} \\[1.0cm]
+    \rowcolor{c8c8c8}
+    Oegop\_Bathy       &                                                                                            &                                                                                            &                                                                                            & \begin{tabular}{cccc}&F&&T\\F&99.9&\vline&0.1\\\cmidrule{2-4}T&0.1&\vline&0.0\end{tabular} \\
+    \bottomrule
+  \end{tabular}
+  \caption{A comparison of site classifications for each foreground branch tested under SBA (mean posterior probabilities) using a posterior probability cut-off of 0.95.  Each value is a percentage of total sites in the alignment.}
+  \label{tab:sites-comp-sba}
+\end{table}
+
+<<chisq,echo=F,results='hide'>>=
+ps.sites <- data.frame(sepi.mean.pp>=0.5,groe.mean.pp>=0.5,loli.mean.pp>=0.5,oego.mean.pp>=0.5,oegp.mean.pp>=0.5)
+colnames(ps.sites) <- c('Sepiida','Groenlandibelids','Loliginidae','Oegop_Bathy','Oegopsida')
+
+summary(table(ps.sites$Sepiida,ps.sites$Groenlandibelids))
+summary(table(ps.sites$Sepiida,ps.sites$Loliginidae))
+summary(table(ps.sites$Sepiida,ps.sites$Oegop_Bathy))
+summary(table(ps.sites$Sepiida,ps.sites$Oegopsida))
+
+summary(table(ps.sites$Groenlandibelids,ps.sites$Loliginidae))
+summary(table(ps.sites$Groenlandibelids,ps.sites$Oegop_Bathy))
+summary(table(ps.sites$Groenlandibelids,ps.sites$Oegopsida))
+
+summary(table(ps.sites$Loliginidae,ps.sites$Oegop_Bathy))
+summary(table(ps.sites$Loliginidae,ps.sites$Oegopsida))
+
+summary(table(ps.sites$Oegop_Bathy,ps.sites$Oegopsida))
+
+@
+
+\subsection*{$\chi^2$ Tests}
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{r*{4}c}
+    \toprule
+                       & Groenlandibelids& Loliginidae  & Oegop\_Bathy & Oegopsida \\
+    \cmidrule(lr){2-2} \cmidrule(lr){3-3} \cmidrule(lr){4-4} \cmidrule(lr){5-5}
+    Sepiida            & 408.9/6.452e-91 & 13.766/0.0002071 & 36.49/1.537e-09 & 7.296/0.00691    \\
+    \rowcolor{c8c8c8}
+    Groenlandibelids   &                 & 3.314/0.06868    & 41.4/1.242e-10  & 0.9248/0.3362    \\
+    Loliginidae        &                 &                  & 83.35/6.884e-20 & 0.021951/0.8822  \\
+    \rowcolor{c8c8c8}
+    Oegop\_Bathy       &                 &                  &                 & 11.489/0.0007003 \\
+    \bottomrule
+  \end{tabular}
+  \caption{$\chi^2$ Tests showing test-statistic/p-value.}
+  \label{tab:chisq}
+\end{table}
+
+\clearpage
+
+<<ps.sites2,echo=F>>=
+##ps.sites <- data.frame(cbind(rep(F,3539),rep(F,3539),rep(F,3539),rep(F,3539),rep(F,3539),sepi.mean.pp>=0.99,groe.mean.pp>=0.999,loli.mean.pp>=0.999,oego.mean.pp>=0.999,oegp.mean.pp>=0.999))
+##colnames(ps.sites) <- c('Sepiida.bs','Groenlandibelids.bs','Loliginidae.bs','Oegop_Bathy.bs','Oegopsida.bs','Sepiida.sba','Groenlandibelids.sba','Loliginidae.sba','Oegop_Bathy.sba','Oegopsida.sba')
+##ps.sites <- data.frame(sepi.mean.pp>=0.999,groe.mean.pp>=0.999,loli.mean.pp>=0.999,oego.mean.pp>=0.999,oegp.mean.pp>=0.999)
+ps.sites <- data.frame(sepi.mean.pp>=0.99,groe.mean.pp>=0.99,loli.mean.pp>=0.99,oego.mean.pp>=0.99,oegp.mean.pp>=0.99)
+colnames(ps.sites) <- c('Sepiida','Groenlandibelids','Loliginidae','Oegop_Bathy','Oegopsida')
+
+##ps.sites$Sepiida.bs[c(2096)] <- T
+##ps.sites$Loliginidae.bs[c(73,79,355,420,439,472,597,792,1026,1513,1575,1951,2075,2133,2555,2866,3287,3449,3454)] <- T
+## nothing under BS.BEB for Groenlandibelids, Oegop_bathy, or Oegopsida
+
+pats.to.show <- which(rowSums(ps.sites) > 0)
+pats.to.show.gs <- which(ps.sites$Sepiida==T | ps.sites$Groenlandibelids==T)
+pats.to.show.groe <- which(ps.sites$Groenlandibelids==T)
+pats.to.show.sepi <- which(ps.sites$Sepiida==T)
+#align <- read.table("./s_nas_spaces.seq",skip=2)
+#align <- align[,c(1,pats.to.show+1)]
+#colnames(align) <- c('',as.character(pats.to.show))
+#write.table(align,"./sites.fasta")
+
+#aa <- as.matrix(read.csv("sites.aa",header=F))
+#aa <- t(aa)
+#write.table(aa,"sites2.aa")
+
+#kable(aa,linesep="",longtable=T) %>%
+#    kable_styling(font_size = 9)
+@
+
+\begin{center}
+  \begin{longtable}{rl}
+    \toprule
+         & \colorbox{groe}{\texttt{\ \  Groenlandibelids\ \ \ }} \\
+    Site & \colorbox{oegb}{\texttt{Oegop\_Ba}}\colorbox{loli}{\texttt{Loligini}}\colorbox{semi}{\texttt{S}}\colorbox{idio}{\texttt{I}}\colorbox{sepi}{\texttt{\ Sepiida\ \ }}\colorbox{vamp}{\texttt{V}} \\
+    \cmidrule(lr){1-1} \cmidrule(lr){2-2}
+    \input{sites2.aa}
+    \bottomrule
+    \caption[]{Site patterns for sites with a mean posterior probability $>=0.99$ from any of the significant branch-site tests.
+
+      \vspace{0.5cm}
+      \footnotesize{
+        \colorbox{groe}{sites flagged only in Groenlandibelids}\\
+        \colorbox{sepi}{sites flagged only in Sepiida}\\
+        \(*\)sites flagged in neither branch\\
+        +sites flagged in both branches.}}
+    \label{tab:aa}
+  \end{longtable}
+\end{center}
+
+<<divergence,echo=F>>=
+aa <- t(as.matrix(read.csv("sites.aa",header=F)))
+rownames(aa) <- pats.to.show
+
+max.freq <- function(x) { names(sort(table(x),decreasing=T)[1]) }
+
+max.freq.ogeo <- apply(aa[,1:8],1,max.freq)
+max.freq.loli <- apply(aa[,9:16],1,max.freq)
+max.freq.groe <- apply(aa[,1:18],1,max.freq)
+max.freq.sepi <- apply(aa[,19:28],1,max.freq)
+max.freq.outg <- apply(aa[,30:35],1,max.freq)
+
+## How many times does the most common AA in ogeo match most common AA in the out group?
+sum(max.freq.ogeo == max.freq.outg)/length(pats.to.show)
+
+## How many times does the most common AA in loli match most common AA in the out group?
+sum(max.freq.loli == max.freq.outg)/length(pats.to.show)
+
+## How many times does the most common AA in groe match most common AA in the out gropu?
+sum(max.freq.groe == max.freq.outg)/length(pats.to.show)
+
+## How many times does the most common AA in ogeo match most common AA in Loli?
+sum(max.freq.ogeo == max.freq.loli)/length(pats.to.show)
+
+## How many times does the most common AA in sepi match most common AA in the out group?
+sum(max.freq.sepi == max.freq.outg)/length(pats.to.show)
+
+## How many times does the most common AA in groe match most common AA in sepi?
+sum(max.freq.groe == max.freq.sepi)/length(pats.to.show)
+
+@ 
+
+% \clearpage
+
+% <<echo=F>>=
+% kable(align[,1:9],booktabs=T,linesep="") %>%
+%     row_spec(1:5, color="black",background="omma") %>%
+%     row_spec(6:7, color="black",background="oego") %>%
+%     row_spec(8, color="black",background="bath") %>%
+%     row_spec(9:16, color="black",background="loli") %>%
+%     row_spec(17, color="black",background="semi") %>%
+%     row_spec(18, color="black",background="idio") %>%
+%     row_spec(19:28, color="black",background="sepi") %>%
+%     row_spec(29, color="black",background="vamp")
+% @
+
+% \clearpage
+
+% <<echo=F>>=
+% kable(align[,c(1,10:19)],booktabs=T,linesep="") %>%
+%     row_spec(1:5, color="black",background="omma") %>%
+%     row_spec(6:7, color="black",background="oego") %>%
+%     row_spec(8, color="black",background="bath") %>%
+%     row_spec(9:16, color="black",background="loli") %>%
+%     row_spec(17, color="black",background="semi") %>%
+%     row_spec(18, color="black",background="idio") %>%
+%     row_spec(19:28, color="black",background="sepi") %>%
+%     row_spec(29, color="black",background="vamp")
+% @
+
+% \clearpage
+
+% <<echo=F>>=
+% kable(align[,c(1,20:29)],booktabs=T,linesep="") %>%
+%     row_spec(1:5, color="black",background="omma") %>%
+%     row_spec(6:7, color="black",background="oego") %>%
+%     row_spec(8, color="black",background="bath") %>%
+%     row_spec(9:16, color="black",background="loli") %>%
+%     row_spec(17, color="black",background="semi") %>%
+%     row_spec(18, color="black",background="idio") %>%
+%     row_spec(19:28, color="black",background="sepi") %>%
+%     row_spec(29, color="black",background="vamp")
+% @
+
+% \clearpage
+
+% <<echo=F>>=
+% kable(align[,c(1,30:39)],booktabs=T,linesep="") %>%
+%     row_spec(1:5, color="black",background="omma") %>%
+%     row_spec(6:7, color="black",background="oego") %>%
+%     row_spec(8, color="black",background="bath") %>%
+%     row_spec(9:16, color="black",background="loli") %>%
+%     row_spec(17, color="black",background="semi") %>%
+%     row_spec(18, color="black",background="idio") %>%
+%     row_spec(19:28, color="black",background="sepi") %>%
+%     row_spec(29, color="black",background="vamp")
+% @
+
+% \clearpage
+
+% <<echo=F>>=
+% kable(align[,c(1,30:39)],booktabs=T,linesep="") %>%
+%     row_spec(1:5, color="black",background="omma") %>%
+%     row_spec(6:7, color="black",background="oego") %>%
+%     row_spec(8, color="black",background="bath") %>%
+%     row_spec(9:16, color="black",background="loli") %>%
+%     row_spec(17, color="black",background="semi") %>%
+%     row_spec(18, color="black",background="idio") %>%
+%     row_spec(19:28, color="black",background="sepi") %>%
+%     row_spec(29, color="black",background="vamp")
+% @
+
+% \clearpage
+
+% <<echo=F>>=
+% kable(align[,c(1,40:49)],booktabs=T,linesep="") %>%
+%     row_spec(1:5, color="black",background="omma") %>%
+%     row_spec(6:7, color="black",background="oego") %>%
+%     row_spec(8, color="black",background="bath") %>%
+%     row_spec(9:16, color="black",background="loli") %>%
+%     row_spec(17, color="black",background="semi") %>%
+%     row_spec(18, color="black",background="idio") %>%
+%     row_spec(19:28, color="black",background="sepi") %>%
+%     row_spec(29, color="black",background="vamp")
+% @
+
+% \clearpage
+
+% <<echo=F>>=
+% kable(align[,c(1,50:59)],booktabs=T,linesep="") %>%
+%     row_spec(1:5, color="black",background="omma") %>%
+%     row_spec(6:7, color="black",background="oego") %>%
+%     row_spec(8, color="black",background="bath") %>%
+%     row_spec(9:16, color="black",background="loli") %>%
+%     row_spec(17, color="black",background="semi") %>%
+%     row_spec(18, color="black",background="idio") %>%
+%     row_spec(19:28, color="black",background="sepi") %>%
+%     row_spec(29, color="black",background="vamp")
+% @
+
+% <<echo=F>>=
+% kable(align[,c(1,60:66)],booktabs=T,linesep="") %>%
+%     row_spec(1:5, color="black",background="omma") %>%
+%     row_spec(6:7, color="black",background="oego") %>%
+%     row_spec(8, color="black",background="bath") %>%
+%     row_spec(9:16, color="black",background="loli") %>%
+%     row_spec(17, color="black",background="semi") %>%
+%     row_spec(18, color="black",background="idio") %>%
+%     row_spec(19:28, color="black",background="sepi") %>%
+%     row_spec(29, color="black",background="vamp")
+% @
+
+
+%If there is a an association, this could suggest that there are confounding effects.  I should see if this has been noted before with Branch-Site models.  If not, this could be useful for understanding when care needs to be taken about interpreting seemingly separate events.  If we reject the test for homogeneity in an ancestral branch then this may imply that the tests in the descending branches are not appropriate, since we are treating heterogeneous branches as homogeneous.  This might give a tendency to over-state significance.
+
+\end{document}
