@@ -23,13 +23,5 @@ data/Data_28May_2019_TE/BrS/summary/figures
 text/summary/figures
 text/summary/ceph.tex
 text/summary/ceph.pdf
-
-/sims/sim2/figures/alt_params-1.pdf
-/sims/sim4/figures/alt_params-1.pdf
-/sims/sim5/figures/alt_params-1.pdf
-/sims/sim6/figures/alt_params-1.pdf
-/sims/sim7/figures/alt_params-1.pdf
-/sims/sim8/figures/alt_params-1.pdf
-/sims/sim9/figures/alt_params-1.pdf
-/text/outline/outline.pdf
-/sims/sim1/figures/alt_params-1.pdf
+sims/sim*/figures/*
+text/outline/outline.pdf
