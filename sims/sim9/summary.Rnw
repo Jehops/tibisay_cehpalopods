@@ -23,20 +23,22 @@
 <<setup,include=FALSE>>=
 library(knitr)
 rm(list=ls())
-setwd("/home/jrm/scm/tibisay_cephalopods/sims/sim9")
+setwd("/home/jrm/scm/tibisay_cephalopods.git/sims/sim9")
 ## set global chunk options
 opts_chunk$set(fig.path='figures/',fig.align='center',fig.show='hold',cache=T) #$
 options(formatR.arrow=TRUE,width=90)
 @
 
 \begin{itemize}
-\item Simulation under the null for branch-site model A
-\item Symmetric, 8-taxon tree with half the tree in the foreground\\
+\item Symmetric, 8-taxon tree with half the tree in the foreground
+\item 5000 codons
   The total tree length is 6.\\
-  tree: (((A\#1:0.428571,B\#1:0.428571)\#1:0.428571,(C\#1:0.428571,D\#1:0.428571)\#1:0.428571)\#1:0.428571,\\((E:0.428571,F:0.428571):0.428571,(G:0.428571,H:0.428571):0.428571):0.428571);
+  tree: (((A\#1:0.428571,B\#1:0.428571)\#1:0.428571,(C\#1:0.428571,D\#1:0.428571)\#1:0.428571)\#1:0.428571,
+((E:0.428571,F:0.428571):0.428571,(G:0.428571,H:0.428571):0.428571):0.428571);
 \item $\kappa=2.0$ $p_0=0.375$ $p_1=0.375$ $\omega_0=0$
 \end{itemize}
 
+\section*{LR CDFs THERE IS A PROBLEM WITH NULL1 lnls}
 <<data,echo=FALSE,cache=F>>=
 
 lnls <- read.csv("./lnLs.csv")
@@ -47,13 +49,20 @@ params$w2a_f[params$w2a_f>10]=10
 params$w2b_f[params$w2b_f>10]=10
 
 x <- seq(0,6,length.out=1000)
-lrt0 <- 2*(lnls$c0-lnls$null)
+lrt1 <- 2*(lnls$bsA-lnls$null1)
+lrt2 <- 2*(lnls$bsA-lnls$null2)
 plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='')
 points(x,pchisq(x,1),,col=8,type='l')
-points(sort(lrt0),c(1:length(lrt0))/length(lrt0),col=2,type='l')
-points(sort(lrt0[params$w2b_f>1]),c(1:length(lrt0[params$w2b_f>1]))/length(lrt0[params$w2b_f>1]),col=4,type='l')
-legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'C=0',bquote("C=0 ("*omega[2]*">1, n="*.(length(which(params$w2b_f>1)))*")")),col=c(1,8,2,4),pch=c(16,16,16,16))
+points(sort(lrt1),c(1:length(lrt1))/length(lrt1),col=3,type='l')
+points(sort(lrt2),c(1:length(lrt2))/length(lrt2),col=2,type='l')
+points(sort(lrt2[params$w2b_f>1]),c(1:length(lrt2[params$w2b_f>1]))/length(lrt2[params$w2b_f>1]),col=4,type='l')
+legend(4,.8,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'LRT1','LRT2',bquote("LRT2 ("*omega[2]*">1, n="*.(length(which(params$w2b_f>1)))*")")),col=c(1,8,3,2,4),pch=c(16,16,16,16,16))
+@
 
+\clearpage
+
+\section*{MLEs under Alternative}
+<<alt.params,echo=F>>=
 par(mfrow=c(2,3))
 hist(params$p0,xlab="p0",main='')
 hist(params$p1,xlab="p1",main='')
@@ -62,6 +71,5 @@ hist(params$p2b,xlab="p2b",main='')
 hist(params$w0_b,xlab="w0",main='')
 hist(params$w2b_f,xlab="w2",,main=bquote(.(big.w)~omega[2]*">= 10"))
 @
-
 
 \end{document}

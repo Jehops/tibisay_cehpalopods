@@ -35,11 +35,14 @@ options(formatR.arrow=TRUE,width=90)
 
 \begin{itemize}
 \item Simulation under the null for branch-site model A
-\item Symmetric, 4-taxon tree with one foreground branch \\
+\item 500 codons
+\item Symmetric, 4-taxon tree with one foreground branch
   The total tree length is 3.\\
   tree: ((A\#1:0.5,B:0.5):0.5,(C:0.5,D:0.5):0.5);
 \item $\kappa=2.0$ $p_0=0.75$ $p_{1/2b}=0.2105263$ $\omega_0=0.40$
 \end{itemize}
+
+\section*{LR CDFs}
 
 <<data,echo=FALSE,cache=F>>=
 
@@ -51,18 +54,21 @@ params$w2a_f[params$w2a_f>10]=10
 params$w2b_f[params$w2b_f>10]=10
 
 x <- seq(0,6,length.out=1000)
-lrt0 <- 2*(lnls$c0-lnls$null)
-lrt1 <- 2*(lnls$c5-lnls$null)
-lrt2 <- 2*(lnls$c25-lnls$null)
+lrt1 <- 2*(lnls$bsA-lnls$null1)
+lrt2 <- 2*(lnls$bsA-lnls$null2)
+plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='')
+points(x,pchisq(x,1),,col=8,type='l')
+points(sort(lrt1),c(1:length(lrt1))/length(lrt1),col=3,type='l')
+points(sort(lrt2),c(1:length(lrt2))/length(lrt2),col=2,type='l')
+points(sort(lrt2[params$w2b_f>1]),c(1:length(lrt2[params$w2b_f>1]))/length(lrt2[params$w2b_f>1]),col=4,type='l')
+legend(4,.8,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'LRT1','LRT2',bquote("LRT2 ("*omega[2]*">1, n="*.(length(which(params$w2b_f>1)))*")")),col=c(1,8,3,2,4),pch=c(16,16,16,16,16))
+@
 
-plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='') ## 50:50 X^2 mixture
-points(x,pchisq(x,1),,col=8,type='l') ## X^2 df=1
-points(sort(lrt0),c(1:length(lrt0))/length(lrt0),col=2,type='l') ## C=0
-points(sort(lrt0[params$w2b_f>1]),c(1:length(lrt0[params$w2b_f>1]))/length(lrt0[params$w2b_f>1]),col=4,type='l') ## C=0|w2>1
-points(sort(lrt1),c(1:length(lrt1))/length(lrt1),col=5,type='l') ## C=5
-points(sort(lrt2),c(1:length(lrt2))/length(lrt2),col=6,type='l') ## C=25
-legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'C=0',bquote("C=0 ("*omega[2]*">1, n="*.(length(which(params$w2b_f>1)))*")"),'C=5','C=25'),col=c(1,8,2,4,5,6),pch=c(16,16,16,16))
 
+\clearpage
+
+\section*{MLEs under Alternative}
+<<alt.params,echo=F>>=
 par(mfrow=c(2,3))
 hist(params$p0,xlab="p0",main='')
 hist(params$p1,xlab="p1",main='')

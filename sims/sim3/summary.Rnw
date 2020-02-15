@@ -27,7 +27,7 @@
 <<setup,include=FALSE>>=
 library(knitr)
 rm(list=ls())
-setwd("/home/jrm/scm/tibisay_cephalopods/sims/sim3")
+setwd("/home/jrm/scm/tibisay_cephalopods.git/sims/sim3")
 ## set global chunk options
 opts_chunk$set(fig.path='figures/',fig.align='center',fig.show='hold',cache=T) #$
 options(formatR.arrow=TRUE,width=90)
@@ -36,6 +36,7 @@ options(formatR.arrow=TRUE,width=90)
 
 \begin{itemize}
 \item Simulation under the null for branch-site model A
+\item 500 codons
 \item Symmetric, 8-taxon tree with one foreground branch \\
   The total tree length is 3.\\
   tree: (((A\#1:0.214286,B:0.214286):0.214286,(C:0.214286,D:0.214286):0.214286):0.214286,\\((E:0.214286,F:0.214286):0.214286,(G:0.214286,H:0.214286):0.214286):0.214286);
@@ -52,12 +53,14 @@ params$w2a_f[params$w2a_f>10]=10
 params$w2b_f[params$w2b_f>10]=10
 
 x <- seq(0,6,length.out=1000)
-lrt0 <- 2*(lnls$c0-lnls$null)
+lrt1 <- 2*(lnls$bsA-lnls$null1)
+lrt2 <- 2*(lnls$bsA-lnls$null2)
 plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='')
 points(x,pchisq(x,1),,col=8,type='l')
-points(sort(lrt0),c(1:length(lrt0))/length(lrt0),col=2,type='l')
-points(sort(lrt0[params$w2b_f>1]),c(1:length(lrt0[params$w2b_f>1]))/length(lrt0[params$w2b_f>1]),col=4,type='l')
-legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'C=0',bquote("C=0 ("*omega[2]*">1, n="*.(length(which(params$w2b_f>1)))*")")),col=c(1,8,2,4),pch=c(16,16,16,16))
+points(sort(lrt1),c(1:length(lrt1))/length(lrt1),col=3,type='l')
+points(sort(lrt2),c(1:length(lrt2))/length(lrt2),col=2,type='l')
+points(sort(lrt2[params$w2b_f>1]),c(1:length(lrt2[params$w2b_f>1]))/length(lrt2[params$w2b_f>1]),col=4,type='l')
+legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'LRT1','LRT2',bquote("LRT2 ("*omega[2]*">1, n="*.(length(which(params$w2b_f>1)))*")")),col=c(1,8,3,2,4),pch=c(16,16,16,16,16))
 
 par(mfrow=c(2,3))
 hist(params$p0,xlab="p0",main='')
