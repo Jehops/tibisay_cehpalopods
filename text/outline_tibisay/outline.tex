@@ -1,0 +1,218 @@
+% Created 2019-08-27 Tue 14:30
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Joseph Mingrone}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={Joseph Mingrone},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.0.50 (Org mode 9.2.5)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{Outline of Cephalopod Study}
+\label{sec:orgd31c6fc}
+\subsection{Branch-Site Simulations}
+\label{sec:org9701120}
+\subsubsection{Simulations under \(H_0\)}
+\label{sec:orgf649161}
+\begin{itemize}
+\item All simulations except 1. use an 8-taxon tree
+\item Simulations 1-4 used 500-codon sequences and simulations 5-11 used
+5000-codon sequences
+\item All Simulations were with 1000 replicates
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/bsa\_sim1\_4-taxon-tree.pdf}{1.} One foreground branch at a tip of symmetric 4-taxon tree; total tree
+length 3; \(p_0=0.75\), \(p_1=0.21\), \(\omega_0=0.4\)
+\begin{itemize}
+\item Conservative behaviour unless we condition on \(\omega_2>1\), in which case
+we match a \(\chi^2_1\)
+\item Distribution of MLEs look good except some inflated \(\omega_2\) estimates
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/bsa\_sim2\_8-taxon-tree.pdf}{2.} One foreground branch at a tip; total tree length 3; \(p_0=0.7\),
+\(p_1=0.2\), \(\omega_0=0.3\)
+\begin{itemize}
+\item Conservative behaviour unless we condition on \(\omega_2>1\), in which case
+we match a \(\chi^2_1\)
+\item Distribution of MLEs look good except some inflated \(\omega_2\) estimates
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/bsa\_sim3\_8-taxon-tree.pdf}{3.} One foreground branch at a tip; total tree length 3; \(p_0=0.75\),
+\(p_1=0.25\), \(\omega_0=0.3\)
+\begin{itemize}
+\item Clear conservative behaviour unless we condition on \(\omega_2>1\), in which
+case we match a \(\chi^2_1\)
+\item Distribution of MLEs look good except some inflated \(\omega_2\) estimates
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/bsa\_sim4\_8-taxon-tree.pdf}{4.} One foreground branch at a tip; total tree length 3; \(p_0=0.25\),
+\(p_1=0.75\), \(\omega_0=0.3\)
+\begin{itemize}
+\item Slight conservative behaviour unless we condition on \(\omega_2>1\), in
+which case we nearly match a \(\chi^2_1\) (slightly anti-conservative
+relative to \(\chi^2_1\) distribution)
+\item Distribution of MLEs look good except some inflated \(\omega_2\) estimates
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/bsa\_sim5\_8-taxon-tree.pdf}{5.} One foreground branch at a tip; foreground branch is 1/10 the length of
+the other branches; total tree length 6; \(p_0=0.5\), \(p_1=0.5\), \(\omega_0=0\)
+\begin{itemize}
+\item Very conservative behaviour, even when we condition on \(\omega_2>1\) (386
+of the \(\omega_2\) estimates).
+\item There are left tails on the \(p_0\) and \(p_1\) MLE distributions and right
+tails on the p₂ₐ and p₂b and \(\omega_2\) MLEs.
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/bsa\_sim6\_8-taxon-tree.pdf}{6.} One foreground branch at a tip; foreground branch 10x the length of the
+other branches; total tree length 6; \(p_0=0.5\), \(p_1=0.5\), \(\omega_0=0\)
+\begin{itemize}
+\item Still very conservative behaviour, even when we condition on \(\omega_2>1\)
+(924 of the \(\omega_2\) estimates).
+\item Distribution of MLEs look good except some inflated \(\omega_2\) estimates
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/bsa\_sim7\_8-taxon-tree.pdf}{7.} Half of tree in foreground; total tree length 6; \(p_0=0.5\), \(p_1=0.5\),
+\(\omega_0=0\)
+\begin{itemize}
+\item Anti-conservative behaviour; conditioning on \(\omega_2>1\) (674) shows
+slight anti-conservative behaviour relative to \(\chi^2_1\)
+\item MLEs look good (boundary issues); some inflated \(\omega_2\) estimates
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/bsa\_sim8\_8-taxon-tree.pdf}{8.} Half of tree in foreground; total tree length 6; \(p_0=0.475\),
+\(p_1=0.475\), \(\omega_0=0\)
+\begin{itemize}
+\item Anti-conservative behaviour; conditioning on \(\omega_2>1\) (553) shows
+anti-conservative behaviour relative to \(\chi^2_1\)
+\item MLEs look good (boundary issues only with ωₒ); no inflated \(\omega_2\)
+estimates
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/bsa\_sim9\_8-taxon-tree.pdf}{9.} Half of tree in foreground; total tree length 6; \(p_0=0.375\),
+\(p_1=0.375\), \(\omega_0=0\)
+\begin{itemize}
+\item Anti-conservative behaviour; conditioning on \(\omega_2>1\) (531) shows
+anti-conservative behaviour relative to \(\chi^2_1\)
+\item MLEs look good (boundary issues only with ωₒ); no inflated \(\omega_2\)
+estimates
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/zbsa\_sim10\_8-taxon-tree.pdf}{10.} One internal branch in foreground 1/10th the length; total tree length
+6; \(p_0=0.5\), \(p_1=0.5\), \(\omega_0=0\)
+\begin{itemize}
+\item Very conservative behaviour; conditioning on \(\omega_2>1\) (571) shows very
+conservative behaviour as well.
+\item MLEs are wide (\(p_0/p_1\) long left tails, \(p_{2a}/p_{2b}\) long right
+tails); \(\omega_2\) has inflated estimates
+\end{itemize}
+
+\href{https://ftfl.ca/misc/bsa/zbsa\_sim11\_8-taxon-tree.pdf}{11.} One internal branch in foreground 10x the length; total tree length 6;
+\(p_0=0.5\), \(p_1=0.5\), \(\omega_0=0\)
+\begin{itemize}
+\item Still conservative behaviour, but less so with the longer branch;
+conditioning on \(\omega_2>1\) (421) shows only very mild conservative
+behaviour relative to \(\chi^2_1\) mixture.
+\item Weight MLEs are bimodal; \(\omega_2\) has inflated estimates
+\end{itemize}
+
+\subsubsection{Notes}
+\label{sec:orgb860af1}
+\begin{itemize}
+\item Single branch are not sufficiently influential to cause anti-conservative
+behaviour
+\begin{itemize}
+\item We see anti-conservative behaviour with information sparseness
+\end{itemize}
+\item With more of the tree in the foreground, we see similar behaviour to M2a
+\item If we restrict to simulations with \(\omega_2>1\), we often match \(\chi^2_1\)
+\item With one foreground branch, the models are so conservative, a
+re-calibration may be called for
+\item The LR statistics distributions looks very different depending on how the
+foreground is chosen.  This is a problem.
+\item Penalization could still be relevant when the foreground takes up more of
+the tree.
+\item When \(p_0+p_1<1\), the theory of Self and Liang applies and the LRS
+distributions should match a χ² mixture.  Perhaps running simulation 9
+with penalization to support this.
+\item When \(p_0+p_1=1\), the theory of Self and Liang does not apply (why) and we
+expect conservative behaviour.
+\item \(p_0+p_1=1\) is the better \(H_0\) due to adaptive evolution (from a MutSel
+perspective).  This can occur when going from \(\omega<1\) to\ldots{}??.  That's
+exactly what \(p_{2a}\) corresponds to.
+\item Inflated \(\omega_2\) is still a problem.
+\item Corrections for multiple tests assume that the probability of a type I
+error is the same for each test, but that's not the case here.
+\end{itemize}
+
+\subsection{Data}
+\label{sec:org85573b2}
+\begin{itemize}
+\item \href{Dal\#CANiYCztS-ihazv3UnjOxOANHK35NT4Lf0OKL2\_gkaq5mdMHBiA@mail.gmail.com}{Email from Tibisay Escalona about Cephalopad Data}
+\item \href{file:///home/jrm/scm/tibisay\_cephalopods/data/Data\_28May\_2019\_TE/}{Cephalopod Data and Analyses}
+\end{itemize}
+
+There are 35 taxa with 3738 codons (3539 without ambiguous sites).  Each of
+the 10 branch-site tests is on a single branch.
+
+\subsection{Branch-Site Analyses}
+\label{sec:org993a25f}
+
+\href{https://ftfl.ca/misc/bsa/cephalopod\_brs\_summary.pdf}{Summary of Branch-Site Analyses of Celphalopod Data}
+
+The LR tests for \#2, 4, 5, 6, and 8 (Groenlandibelus, Loliginidae,
+Oegop\textsubscript{Bathy}, and Oegopsida, Sepiida) were significant after correcting for
+multiple tests.
+
+\subsection{SBA Analyses}
+\label{sec:org55045a0}
+
+\href{https://ftfl.ca/misc/bsa/cephalopod\_sba\_summary.pdf}{Summary of SBA Analyses of Cephalopod Data}
+
+The SBA analyses were run on the 5 branches that were significant under the
+branch-site tests.  The \(\omega_2\) estimates tended towards infinity (they
+were all 999 for Groenlandibelus and Sepiida).  The other MLE estimates
+looked stable, except for some instability with Oegop\textsubscript{Bathy} and Oegopsida
+branches.
+
+
+\subsection{Proposed Simulations}
+\label{sec:org41104f2}
+
+Simulate 35 taxa 3500 codons using tree topology and foreground branches from
+Cephalopod data both under the null and with various ω>1.  We could also run
+these under SBA to discover MLE distributions.
+
+\subsection{Planned Tests to assess Biological Conclusions}
+\label{sec:org958b8ee}
+\href{nnml:Dal\#93BCA37A-0B0B-422E-8C39-09ED9A419A2F@dal.ca}{Email from Joe with two recent references for some of these tests} \href{file:///home/jrm/files/edu/papers/Improved\_inference\_of\_site-specific\_positive\_selection\_under\_a\_generalized\_parametric\_codon\_model\_when\_there\_are\_multinucleotide\_mutations\_and\_multiple\_nonsynonymous\_rates\_-\_Dunn\_et\_al\_-\_2019\_-\_BMC\_Evolutionary\_Biology\_.pdf}{Joe and
+Kathy's paper about multinucleotide mutations and multiple nonsynonymous
+rates}
+\begin{itemize}
+\item test for double/triple (DT) nucleotide changes
+\item test for recombination
+\item test for variation in dS
+\item rerun the tests for Muse and Gaut (option 5 in codeml), which models
+transition probabilities in the Q matrix as a proportion to the target
+nucleotide
+\end{itemize}
+\end{document}

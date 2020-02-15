@@ -1,0 +1,196 @@
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org92571a5">1. Notes</a></li>
+</ul>
+</div>
+</div>
+<ul class="org-ul">
+<li>All simulations except 1. use an 8-taxon tree</li>
+<li>Simulations 1-4 used 500-codon sequences, simulations 5-11 used 5000-codon sequences, and simulation 16 used 10000-codon sequence</li>
+<li><p>
+All Simulations were with 1000 replicates
+</p>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/bsa_sim1_4-taxon-tree.pdf">1.</a> One foreground branch at a tip of symmetric 4-taxon tree; total tree
+length 3; \(p_0=0.75\), \(p_1=0.21\), \(\omega_0=0.4\)
+</p>
+<ul class="org-ul">
+<li>Conservative behaviour unless we condition on \(\omega_2>1\), in which case
+we match a \(\chi^2_1\)</li>
+<li>Distribution of MLEs look good except some inflated \(\omega_2\) estimates</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/bsa_sim2_8-taxon-tree.pdf">2.</a> One foreground branch at a tip; total tree length 3; \(p_0=0.7\),
+\(p_1=0.2\), \(\omega_0=0.3\)
+</p>
+<ul class="org-ul">
+<li>Conservative behaviour unless we condition on \(\omega_2>1\), in which case
+we match a \(\chi^2_1\)</li>
+<li>Distribution of MLEs look good except some inflated \(\omega_2\) estimates</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/bsa_sim3_8-taxon-tree.pdf">3.</a> One foreground branch at a tip; total tree length 3; \(p_0=0.75\),
+\(p_1=0.25\), \(\omega_0=0.3\)
+</p>
+<ul class="org-ul">
+<li>Clear conservative behaviour unless we condition on \(\omega_2>1\), in which
+case we match a \(\chi^2_1\)</li>
+<li>Distribution of MLEs look good except some inflated \(\omega_2\) estimates</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/bsa_sim4_8-taxon-tree.pdf">4.</a> One foreground branch at a tip; total tree length 3; \(p_0=0.25\),
+\(p_1=0.75\), \(\omega_0=0.3\)
+</p>
+<ul class="org-ul">
+<li>Slight conservative behaviour unless we condition on \(\omega_2>1\), in
+which case we nearly match a \(\chi^2_1\) (slightly anti-conservative
+relative to \(\chi^2_1\) distribution)</li>
+<li>Distribution of MLEs look good except some inflated \(\omega_2\) estimates</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/bsa_sim5_8-taxon-tree.pdf">5.</a> One foreground branch at a tip; foreground branch is 1/10 the length of
+the other branches; total tree length 6; \(p_0=0.5\), \(p_1=0.5\), \(\omega_0=0\)
+</p>
+<ul class="org-ul">
+<li>Very conservative behaviour, even when we condition on \(\omega_2>1\) (386
+of the \(\omega_2\) estimates).</li>
+<li>There are left tails on the \(p_0\) and \(p_1\) MLE distributions and right
+tails on the p₂ₐ and p₂b and \(\omega_2\) MLEs.</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/bsa_sim6_8-taxon-tree.pdf">6.</a> One foreground branch at a tip; foreground branch 10x the length of the
+other branches; total tree length 6; \(p_0=0.5\), \(p_1=0.5\), \(\omega_0=0\)
+</p>
+<ul class="org-ul">
+<li>Still very conservative behaviour, even when we condition on \(\omega_2>1\)
+(924 of the \(\omega_2\) estimates).</li>
+<li>Distribution of MLEs look good except some inflated \(\omega_2\) estimates</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/bsa_sim7_8-taxon-tree.pdf">7.</a> Half of tree in foreground; total tree length 6; \(p_0=0.5\), \(p_1=0.5\),
+\(\omega_0=0\)
+</p>
+<ul class="org-ul">
+<li>Anti-conservative behaviour; conditioning on \(\omega_2>1\) (674) shows
+slight anti-conservative behaviour relative to \(\chi^2_1\)</li>
+<li>MLEs look good (boundary issues); some inflated \(\omega_2\) estimates</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/bsa_sim8_8-taxon-tree.pdf">8.</a> Half of tree in foreground; total tree length 6; \(p_0=0.475\),
+\(p_1=0.475\), \(\omega_0=0\)
+</p>
+<ul class="org-ul">
+<li>Anti-conservative behaviour; conditioning on \(\omega_2>1\) (553) shows
+anti-conservative behaviour relative to \(\chi^2_1\)</li>
+<li>MLEs look good (boundary issues only with ωₒ); no inflated \(\omega_2\)
+estimates</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/bsa_sim9_8-taxon-tree.pdf">9.</a> Half of tree in foreground; total tree length 6; \(p_0=0.375\),
+\(p_1=0.375\), \(\omega_0=0\)
+</p>
+<ul class="org-ul">
+<li>Anti-conservative behaviour; conditioning on \(\omega_2>1\) (531) shows
+anti-conservative behaviour relative to \(\chi^2_1\)</li>
+<li>MLEs look good (boundary issues only with ωₒ); no inflated \(\omega_2\)
+estimates</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/zbsa_sim10_8-taxon-tree.pdf">10.</a> One internal branch in foreground 1/10th the length; total tree length
+6; \(p_0=0.5\), \(p_1=0.5\), \(\omega_0=0\)
+</p>
+<ul class="org-ul">
+<li>Very conservative behaviour; conditioning on \(\omega_2>1\) (571) shows very
+conservative behaviour as well.</li>
+<li>MLEs are wide (\(p_0/p_1\) long left tails, \(p_{2a}/p_{2b}\) long right
+tails); \(\omega_2\) has inflated estimates</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/zbsa_sim11_8-taxon-tree.pdf">11.</a> One internal branch in foreground 10x the length; total tree length 6;
+\(p_0=0.5\), \(p_1=0.5\), \(\omega_0=0\)
+</p>
+<ul class="org-ul">
+<li>Still conservative behaviour, but less so with the longer branch;
+conditioning on \(\omega_2>1\) (421) shows only very mild conservative
+behaviour relative to \(\chi^2_1\) mixture.</li>
+<li>Weight MLEs are bimodal; \(\omega_2\) has inflated estimates</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/zbsa_sim13_8-taxon-tree.pdf">13.</a> Simulation under M3 k=3 with [p0,p1,p2] = [0.4,0.4,0.2] and [w0,w1,w2]
+    = [0.1,0.5,0.9].  Symmetric 8-taxon tree with one foreground branch.
+</p>
+<ul class="org-ul">
+<li>Very conservative.  \(\omega_2\) has most weight near 1 and some inflated
+values.</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/zbsa_sim14_8-taxon-tree.pdf">14.</a> Same as simulation 13. but with half of the tree in the foreground.
+</p>
+<ul class="org-ul">
+<li>This is strange, because the results are even more conservative, whereas
+more of the tree in the foreground usually results in an
+anti-conservative outcome.</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/zbsa_sim15_8-taxon-tree.pdf">15.</a> Simulation under M3 k=3 with [p0,p1,p2] = [0.4,0.2,0.4] and [w0,w1,w2]
+= [0.1,0.5,1.0] and half of the tree in the foreground
+</p>
+<ul class="org-ul">
+<li>Less conservative than 14., but still conservative, despite half of the
+tree in the foreground.</li>
+</ul>
+
+<p>
+<a href="https://ftfl.ca/misc/bsa/zbsa_sim16_8-taxon-tree.pdf">16.</a> Simulation under the null with [p0,p1] = [0.5,0.5] and
+    [\(\omega_0\),\(\omega_1\)] = [0,1] and 10,000 sites, 8 taxa, and half of
+    the tree in the foreground.
+</p></li>
+</ul>
+
+<div id="outline-container-org92571a5" class="outline-2">
+<h2 id="org92571a5"><span class="section-number-2">1</span> Notes</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Single branches are not sufficiently influential to cause
+anti-conservative behaviour
+<ul class="org-ul">
+<li>We see anti-conservative behaviour with information sparseness</li>
+</ul></li>
+<li>With more of the tree in the foreground, we see similar behaviour to M2a</li>
+<li>If we restrict to simulations with \(\omega_2>1\), we often match \(\chi^2_1\)</li>
+<li>With one foreground branch, the models are so conservative, a
+re-calibration may be called for</li>
+<li>The LR statistics distributions looks very different depending on how the
+foreground is chosen.  This is a problem.</li>
+<li>Penalization could still be relevant when the foreground takes up more of
+the tree.</li>
+<li>When \(p_0+p_1<1\), the theory of Self and Liang applies and the LRS
+distributions should match a χ² mixture.  Perhaps running simulation 9
+with penalization to support this.</li>
+<li>When \(p_0+p_1=1\), the theory of Self and Liang does not apply (why) and we
+expect conservative behaviour.</li>
+<li>\(p_0+p_1=1\) is the better \(H_0\) due to adaptive evolution (from a MutSel
+perspective).  This can occur when going from \(\omega<1\) to&#x2026;??.  That's
+exactly what \(p_{2a}\) corresponds to.</li>
+<li>Inflated \(\omega_2\) is still a problem.</li>
+<li>Corrections for multiple tests assume that the probability of a type I
+error is the same for each test, but that's not the case here.</li>
+</ul>
+</div>
+</div>
