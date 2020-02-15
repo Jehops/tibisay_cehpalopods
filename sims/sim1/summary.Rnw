@@ -26,7 +26,7 @@
 <<setup,include=FALSE>>=
 library(knitr)
 rm(list=ls())
-setwd("/home/jrm/scm/tibisay_cephalopods/sims/sim1")
+setwd("/home/jrm/scm/tibisay_cephalopods.git/sims/sim1")
 ## set global chunk options
 opts_chunk$set(fig.path='figures/',fig.align='center',fig.show='hold',cache=T) #$
 options(formatR.arrow=TRUE,width=90)
