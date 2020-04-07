@@ -1,0 +1,156 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{amsmath}
+\usepackage{bm} % for bold math symbols
+\usepackage{booktabs} % better tables
+\usepackage[left=.4in,right=.2in,top=.4in,bottom=.2in]{geometry} % margins
+\usepackage{caption} % for subfigures
+\usepackage[T1]{fontenc} % see http://goo.gl/KXXek
+\usepackage{graphicx} % obviously for graphics
+\usepackage{lscape}
+\usepackage{listings} % source code
+\usepackage{latexsym} % MBE template for some fonts
+\usepackage{mathtools} % an extension to amsmath to fix bugs
+\usepackage{multirow} % column cells that span multiple rows
+\usepackage{natbib} % nicer references
+\usepackage{paralist} % inline lists
+\usepackage[section]{placeins} % keep figures and table inside section
+\usepackage{setspace} % for line spacing
+\usepackage{subfig} % for subfigures
+%\usepackage{subcaption} % for subfigures (can't be used with subfig)
+%\usepackage{tikz}
+%\usepackage{tikz-qtree}
+%\usetikzlibrary{arrows}
+
+\begin{document}
+
+<<setup,include=FALSE>>=
+library(knitr)
+rm(list=ls())
+setwd("/home/jrm/scm/tibisay_cephalopods.git/sims/compare_num_sites")
+## set global chunk options
+opts_chunk$set(fig.path='figures/',fig.align='center',fig.show='hold',cache=T) #$
+options(formatR.arrow=TRUE,width=90)
+## require(entropy)
+@
+
+\section*{Simulations under the null for branch-site model A \\ Comparing 500 and 5000 codons}
+
+<<data,echo=FALSE,cache=F>>=
+lnls2 <- read.csv("../sim2/lnLs.csv")
+lnls2b <- read.csv("../sim2b/lnLs.csv")
+lnls3 <- read.csv("../sim3/lnLs.csv")
+lnls3b <- read.csv("../sim3b/lnLs.csv")
+lnls4 <- read.csv("../sim4/lnLs.csv")
+lnls4b <- read.csv("../sim4b/lnLs.csv")
+lnls13 <- read.csv("../sim13/lnLs.csv")
+lnls13b <- read.csv("../sim13b/lnLs.csv")
+lnls14 <- read.csv("../sim14/lnLs.csv")
+lnls14b <- read.csv("../sim14b/lnLs.csv")
+lnls15 <- read.csv("../sim15/lnLs.csv")
+lnls15b <- read.csv("../sim15b/lnLs.csv")
+
+x <- seq(0,6,length.out=1000)
+@
+
+\noindent Sim 2\\
+Symmetric, 8-taxon tree with one foreground branch \\
+The total tree length is 3.\\
+tree: (((A\#1:0.214286,B:0.214286):0.214286,(C:0.214286,D:0.214286):0.214286):0.214286,((E:0.214286,F:0.214286):0.214286,(G:0.214286,H:0.214286):0.214286):0.214286);\\
+$\kappa=2.0$ $p_0=0.7$ $p_{1}=0.2$ $\omega_0=0.3$
+<<sim2,echo=FALSE,cache=F>>=
+lrt <- 2*(lnls2$bsA-lnls2$null2)
+lrtb <- 2*(lnls2b$bsA-lnls2b$null2)
+plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='',main=)
+points(x,pchisq(x,1),,col=8,type='l')
+points(sort(lrt),c(1:length(lrt))/length(lrt),col=2,type='l')
+points(sort(lrtb),c(1:length(lrtb))/length(lrtb),col=4,type='l')
+legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'LRT (500 Codons)','LRT (5000 Codons)'),col=c(1,8,2,4),pch=c(16,16,16,16,16))
+@
+
+\clearpage
+
+\noindent Sim 3\\
+Symmetric, 8-taxon tree with one foreground branch \\
+The total tree length is 3.\\
+tree: (((A\#1:0.214286,B:0.214286):0.214286,(C:0.214286,D:0.214286):0.214286):0.214286,\\((E:0.214286,F:0.214286):0.214286,(G:0.214286,H:0.214286):0.214286):0.214286); \\
+$\kappa=2.0$ $p_0=0.75$ $p_{1}=0.25$ $\omega_0=0.3$
+<<sim3,echo=FALSE,cache=F>>=
+lrt <- 2*(lnls3$bsA-lnls3$null2)
+lrtb <- 2*(lnls3b$bsA-lnls3b$null2)
+plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='')
+points(x,pchisq(x,1),,col=8,type='l')
+points(sort(lrt),c(1:length(lrt))/length(lrt),col=2,type='l')
+points(sort(lrtb),c(1:length(lrtb))/length(lrtb),col=4,type='l')
+legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'LRT (500 Codons)','LRT (5000 Codons)'),col=c(1,8,2,4),pch=c(16,16,16,16,16))
+@
+
+\clearpage
+
+\noindent Sim 4\\
+Symmetric, 8-taxon tree with one foreground branch \\
+The total tree length is 3.\\
+tree: (((A\#1:0.214286,B:0.214286):0.214286,(C:0.214286,D:0.214286):0.214286):0.214286,\\((E:0.214286,F:0.214286):0.214286,(G:0.214286,H:0.214286):0.214286):0.214286); \\
+$\kappa=2.0$ $p_0=0.25$ $p_{1}=0.75$ $\omega_0=0.3$
+<<sim4,echo=FALSE,cache=F>>=
+lrt <- 2*(lnls4$bsA-lnls4$null2)
+lrtb <- 2*(lnls4b$bsA-lnls4b$null2)
+plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='')
+points(x,pchisq(x,1),,col=8,type='l')
+points(sort(lrt),c(1:length(lrt))/length(lrt),col=2,type='l')
+points(sort(lrtb),c(1:length(lrtb))/length(lrtb),col=4,type='l')
+legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'LRT (500 Codons)','LRT (5000 Codons)'),col=c(1,8,2,4),pch=c(16,16,16,16,16))
+@
+
+\clearpage
+
+\noindent Sim 13 \\
+Symmetric, 8-taxon tree with one branch in the foreground \\
+The total tree length is 3.\\
+tree: (((A\#1:0.214286,B:0.214286):0.214286,(C:0.214286,D:0.214286):0.214286):0.214286,((E:0.214286,\\F:0.214286):0.214286,(G:0.214286,H:0.214286):0.214286):0.214286); \\
+M3 k=3 $[p0,p1,p2] = [0.4,0.4,0.2]$ $[w0,w1,w2] = [0.1,0.5,0.9]$ $\kappa=2.0$
+<<sim13,echo=FALSE,cache=F>>=
+lrt <- 2*(lnls13$bsA-lnls13$null2)
+lrtb <- 2*(lnls13b$bsA-lnls13b$null2)
+plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='')
+points(x,pchisq(x,1),,col=8,type='l')
+points(sort(lrt),c(1:length(lrt))/length(lrt),col=2,type='l')
+points(sort(lrtb),c(1:length(lrtb))/length(lrtb),col=4,type='l')
+legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'LRT (500 Codons)','LRT (5000 Codons)'),col=c(1,8,2,4),pch=c(16,16,16,16,16))
+@
+
+\clearpage
+
+\noindent Sim 14 \\
+Symmetric, 8-taxon tree with half of the tree in the foreground \\
+The total tree length is 3.\\
+tree: (((A\#1:0.214286,B\#1:0.214286)\#1:0.214286,(C\#1:0.214286,D\#1:0.214286)\#1:0.214286)\\\#1:0.214286,((E:0.214286,F:0.214286):0.214286,(G:0.214286,H:0.214286):0.214286):0.214286);\\
+M3 k=3 $[p0,p1,p2] = [0.4,0.4,0.2]$ $[w0,w1,w2] = [0.1,0.5,0.9]$ $\kappa=2.0$
+<<sim14,echo=FALSE,cache=F>>=
+lrt <- 2*(lnls14$bsA-lnls14$null2)
+lrtb <- 2*(lnls14b$bsA-lnls14b$null2)
+plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='')
+points(x,pchisq(x,1),,col=8,type='l')
+points(sort(lrt),c(1:length(lrt))/length(lrt),col=2,type='l')
+points(sort(lrtb),c(1:length(lrtb))/length(lrtb),col=4,type='l')
+legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'LRT (500 Codons)','LRT (5000 Codons)'),col=c(1,8,2,4),pch=c(16,16,16,16,16))
+@
+
+\clearpage
+
+\noindent Sim 15 \\
+Symmetric, 8-taxon tree with half of the tree in the foreground \\
+The total tree length is 3.\\
+tree: (((A\#1:0.214286,B\#1:0.214286)\#1:0.214286,(C\#1:0.214286,D\#1:0.214286)\#1:0.214286)\\\#1:0.214286,((E:0.214286,F:0.214286):0.214286,(G:0.214286,H:0.214286):0.214286):0.214286); \\
+M3 k=3 $[p0,p1,p2] = [0.4,0.2,0.4]$ $[w0,w1,w2] = [0.1,0.5,1.0]$ $\kappa=2.0$
+<<sim15,echo=FALSE,cache=F>>=
+lrt <- 2*(lnls15$bsA-lnls15$null2)
+lrtb <- 2*(lnls15b$bsA-lnls15b$null2)
+plot(x,1/2+pchisq(x,1)/2,type='l',xlab='LRS',ylab='')
+points(x,pchisq(x,1),,col=8,type='l')
+points(sort(lrt),c(1:length(lrt))/length(lrt),col=2,type='l')
+points(sort(lrtb),c(1:length(lrtb))/length(lrtb),col=4,type='l')
+legend(4,.9,c(expression((Chi[0]^2+Chi[1]^2)/2),expression(Chi[1]^2),'LRT (500 Codons)','LRT (5000 Codons)'),col=c(1,8,2,4),pch=c(16,16,16,16,16))
+@
+
+\end{document}
