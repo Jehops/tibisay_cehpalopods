@@ -42,7 +42,7 @@
 % comments italicized and red
 \newcommand{\cmt}[1]{\textit{{\color{red}#1}}}
 % page heading title
-\pagestyle{myheadings}\markright{ModL}
+\pagestyle{myheadings}\markright{BSA}
 \renewcommand{\baselinestretch}{2}
 
 \renewcommand{\figurename}{Fig.}
@@ -50,7 +50,6 @@
 \begin{document}
 
 <<setup,include=F>>=
-library(ape)
 library(ggplot2)
 library(grid)
 library(knitr)
@@ -58,8 +57,6 @@ setwd("/home/jrm/scm/tibisay_cephalopods.git/text/paper")
 opts_chunk$set(fig.path='figures/',fig.align='center',fig.show='hold',cache=T,autodep=T) #$
 options(formatR.arrow=TRUE,width=90)
 @
-
-\begin{flushright}Original Paper - Sequence Analysis\end{flushright}
 
 \singlespacing
 
@@ -80,23 +77,25 @@ options(formatR.arrow=TRUE,width=90)
 %\linenumbers
 
 \begin{abstract}
-  \noindent Branch-Site models of codon evolution are widely used for detecting positive selection that has acted on specified lineages of a phylogeny.  Two different likelihood ratio tests have been described, each with thresholds for declaring positive selection determined from a chi-square or mixture of chi-square distributions.  A first test, which, under the null hypothesis, did not permit selection to vary across branches, was shown to flag positive selection with unacceptably high false positive rates.  A second test was developed that does not suffer from issues with inflated false postive rates.  Here, we describe problems with this test as well.  The probability of type I errors varies according to factors such as the branches considered for positive selection and irregularity under with certain parameter estimates.  In some cases, the test is so lacking in power, that a re-calibration is necessary.  We also describe how confounding problems can occur when positive selection identified along the wrong location on a phylogeny.
-
-  one branch, when positive selection really occurred along a different branch.
-
-  - second test normally lacks power and the empirical distribution of the LR statistics varies depending on foreground branches and parameter estimates.  If p0+p1=1, then Self and Liang does not apply.
-
-  - At times it is so Conservative that a re-calibration is necessary.
-
-  - Whether there is enough information for well-behaved estimation depends on a lot of factors.
-
-  - We also show that a confounding problem can occur when positive selection is detected along a foreground branch, when positive selection really occurred along a different branch.
-
-  \textbf{Availability:} https://github.com/jehops/codeml\_modl\\
-  \textbf{Contact:} jrm@ftfl.ca\\
-  \textbf{Supplementary information:} Supplementary data are available at \textit{Bioinformatics} online.
-%Following the simulation study results, we describe why parameter estimation under mixture models of codon evolution is particularly challenging for certain data generation settings.  For example, the estimates can be highly variable when some sites are under purify selection pressure with a ratio of nonsynonymous to synonymous substations close to 1 and this can yield very different mixtures that cannot be distinguished unless both the number of taxa and tree length are large.
+  \noindent Branch-Site models of codon evolution are widely used for detecting
+  positive selection that has acted on specified lineages of a phylogeny.  Two
+  different likelihood ratio tests have been described, each with thresholds for
+  declaring positive selection determined from a chi-square or mixture of
+  chi-square distributions.  A first test, which, under the null hypothesis, did
+  not permit selection to vary across branches, was shown to flag positive
+  selection with unacceptably high false positive rates.  A second test was
+  developed that does not suffer from issues with inflated false positive rates.
+  Here, we describe problems with this second test.  The probability of type I
+  errors varies according to factors such as the branches considered for
+  positive selection and irregularity with certain parameter estimates.  In some
+  cases, the test is so lacking in power, that a re-calibration should be
+  considered.  We also describe how confounding problems can occur when positive
+  selection is identified in the wrong location in the phylogeny.
 \end{abstract}
+
+\noindent\textbf{Availability:} https://github.com/jehops/???\\
+\textbf{Contact:} jrm@ftfl.ca\\
+\textbf{Supplementary information:} Supplementary data are available at .
 
 %\onehalfspacing
 \doublespacing
@@ -199,75 +198,54 @@ We used simulation to estimate LR and modified LR statistic cumulative distribut
 To determine the effect of likelihood modification on power, sequence alignments $500$ codons long were simulated under the M2a alternative model \citep{wong2004accuracy,yang2005bayes}, which, by comparison with the M1a mixing distribution, has an additional component, $\omega_2>1$.  The mixing distributions used in simulations had $(p_0,\omega_0)=(0.45,0.5)$ with $(p_2,\omega_2)$ varying over simulation settings.  Codon frequencies were $1/61$ and $\kappa=1$, as was the case for simulations under the null hypothesis and the tree toplogies also matched those used in the simulations under the null.  For each $\omega$-distribution scenario, $10,000$ alignments were generated for the $5$- and $10$-taxon trees and $1000$ alignments for the $32$-taxon tree.  To ensure that comparisons of power with and without likelihood modification corresponded to the same false positive rate, we calibrated the thresholds for significant LR statistics.  For this, $10,000$ sequences were generated under the null with the weight on $\omega>1$ under the alternative settings added to $\omega=1$.  The $95$th percentiles of these LR statistic distributions under both M1a/M2a (C=$0$) and M1a/M2a (C=$2$) were used as the thresholds for calculating power.
 
 \section*{Results and Discussion}
-\subsection*{Modified LR distribution approximations are accurate for most settings}
-Figure \ref{fig:CDF32taxaTL9} shows the estimated LR and modified LR statistic CDFs for the M1a/M2a nested model pair for the simulations under the null using the 32-taxon tree with branch lengths summing to $9$.  With likelihood modification, we used a tuning parameter of $C=2$.  Other tuning parameters were tested, but the LR statistic CDFs for values of $C$ between $2$ and $5$ were indistinguishable from those with $C=2$, and CDFs for values of $C<2$ were always between the one for $C=2$ and the one for the unmodified LR statistics.  CDFs for $\chi_0^2/2 + \chi_1^2/2$ are also included in each plot.  For all of the CDFs in Figure \ref{fig:CDF32taxaTL9}, the modified LR statistic distributions are better approximated by a $\chi_0^2/2 + \chi_1^2/2$ distribution than the corresponding distributions without likelihood modification.  Tree topology made little difference as both the LR statistic and modified LR statistic CDFs were similar when data were simulated with different topologies.  Figure \ref{fig:CDF5taxaTL3} and supplementary Figures \ref{fig:CDF5taxaTL6} - \ref{fig:CDF32taxaTL6} contain the LR statistic CDFs for the remaining simulation scenarios.
+\subsection*{Extremely conservative LR distribution approximations}
+Figure \ref{fig:CDFNull1FBTL6} shows estimated LR CDFs for Branch-Site Model A LRT2 simulations under the null model.  These data were simulated using the 8-taxon tree with branch lengths summing to $6$.  CDFs for $\chi_0^2/2 + \chi_1^2/2$ are also included in each plot.  For all of the CDFs in Figure \ref{fig:CDF1}, the LR statistic distributions are conservative are better approximated by a $\chi_0^2/2 + \chi_1^2/2$ distribution than the corresponding distributions without likelihood modification.  Tree topology made little difference as both the LR statistic and modified LR statistic CDFs were similar when data were simulated with different topologies.  Figure \ref{fig:CDF5taxaTL3} and supplementary Figures \ref{fig:CDF5taxaTL6} - \ref{fig:CDF32taxaTL6} contain the LR statistic CDFs for the remaining simulation scenarios.
 \begin{figure}
     \centering
-<<CDF32taxaTL9,echo=F,warning=F>>=
+<<CDFNull1FBTL6,echo=F,warning=F>>=
     rm(list=ls())
-    p0_0.25_w0_0.25_32_taxa_m1a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.25_w0_0.25_32_taxa_tl_9_m1a_lnLs.csv",sep=',')
-    p0_0.25_w0_0.25_32_taxa_m2a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.25_w0_0.25_32_taxa_tl_9_m2a_lnLs.csv",sep=',')
-    p0_0.25_w0_0.25_32_taxa_c2_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.25_w0_0.25_32_taxa_tl_9_c2_lnLs.csv",sep=',')
-    p0_0.25_w0_0.5_32_taxa_m1a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.25_w0_0.5_32_taxa_tl_9_m1a_lnLs.csv",sep=',')
-    p0_0.25_w0_0.5_32_taxa_m2a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.25_w0_0.5_32_taxa_tl_9_m2a_lnLs.csv",sep=',')
-    p0_0.25_w0_0.5_32_taxa_c2_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.25_w0_0.5_32_taxa_tl_9_c2_lnLs.csv",sep=',')
+    sim5.lnls <- read.csv("../../sims/sim5/lnLs.csv")
+    sim6.lnls <- read.csv("../../sims/sim6/lnLs.csv")
+    sim10.lnls <- read.csv("../../sims/sim10/lnLs.csv")
+    sim11.lnls <- read.csv("../../sims/sim11/lnLs.csv")
 
-    p0_0.5_w0_0.25_32_taxa_m1a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.5_w0_0.25_32_taxa_tl_9_m1a_lnLs.csv",sep=',')
-    p0_0.5_w0_0.25_32_taxa_m2a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.5_w0_0.25_32_taxa_tl_9_m2a_lnLs.csv",sep=',')
-    p0_0.5_w0_0.25_32_taxa_c2_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.5_w0_0.25_32_taxa_tl_9_c2_lnLs.csv",sep=',')
-    p0_0.5_w0_0.5_32_taxa_m1a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.5_w0_0.5_32_taxa_tl_9_m1a_lnLs.csv",sep=',')
-    p0_0.5_w0_0.5_32_taxa_m2a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.5_w0_0.5_32_taxa_tl_9_m2a_lnLs.csv",sep=',')
-    p0_0.5_w0_0.5_32_taxa_c2_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.5_w0_0.5_32_taxa_tl_9_c2_lnLs.csv",sep=',')
+    lrs1.sim5 <- sort(2*(sim5.lnls$bsA-sim5.lnls$null1))
+    lrs2.sim5 <- sort(2*(sim5.lnls$bsA-sim5.lnls$null2))
+    lrs1.sim6 <- sort(2*(sim6.lnls$bsA-sim6.lnls$null1))
+    lrs2.sim6 <- sort(2*(sim6.lnls$bsA-sim6.lnls$null2))
+    lrs1.sim10 <- sort(2*(sim10.lnls$bsA-sim10.lnls$null1))
+    lrs2.sim10 <- sort(2*(sim10.lnls$bsA-sim10.lnls$null2))
+    lrs1.sim11 <- sort(2*(sim11.lnls$bsA-sim11.lnls$null1))
+    lrs2.sim11 <- sort(2*(sim11.lnls$bsA-sim11.lnls$null2))
 
-    p0_0.75_w0_0.25_32_taxa_m1a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.75_w0_0.25_32_taxa_tl_9_m1a_lnLs.csv",sep=',')
-    p0_0.75_w0_0.25_32_taxa_m2a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.75_w0_0.25_32_taxa_tl_9_m2a_lnLs.csv",sep=',')
-    p0_0.75_w0_0.25_32_taxa_c2_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.75_w0_0.25_32_taxa_tl_9_c2_lnLs.csv",sep=',')
-    p0_0.75_w0_0.5_32_taxa_m1a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.75_w0_0.5_32_taxa_tl_9_m1a_lnLs.csv",sep=',')
-    p0_0.75_w0_0.5_32_taxa_m2a_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.75_w0_0.5_32_taxa_tl_9_m2a_lnLs.csv",sep=',')
-    p0_0.75_w0_0.5_32_taxa_c2_lnl <- scan("../../sim/null/32_taxa_bl_9/data/p0_0.75_w0_0.5_32_taxa_tl_9_c2_lnLs.csv",sep=',')
-
-    lrs_p0_0.25_w0_0.25_32_taxa_m2a <- sort(2*(p0_0.25_w0_0.25_32_taxa_m2a_lnl-p0_0.25_w0_0.25_32_taxa_m1a_lnl))
-    lrs_p0_0.25_w0_0.25_32_taxa_c2 <- sort(2*(p0_0.25_w0_0.25_32_taxa_c2_lnl-p0_0.25_w0_0.25_32_taxa_m1a_lnl))
-    lrs_p0_0.25_w0_0.5_32_taxa_m2a <- sort(2*(p0_0.25_w0_0.5_32_taxa_m2a_lnl-p0_0.25_w0_0.5_32_taxa_m1a_lnl))
-    lrs_p0_0.25_w0_0.5_32_taxa_c2 <- sort(2*(p0_0.25_w0_0.5_32_taxa_c2_lnl-p0_0.25_w0_0.5_32_taxa_m1a_lnl))
-
-    lrs_p0_0.5_w0_0.25_32_taxa_m2a <- sort(2*(p0_0.5_w0_0.25_32_taxa_m2a_lnl-p0_0.5_w0_0.25_32_taxa_m1a_lnl))
-    lrs_p0_0.5_w0_0.25_32_taxa_c2 <- sort(2*(p0_0.5_w0_0.25_32_taxa_c2_lnl-p0_0.5_w0_0.25_32_taxa_m1a_lnl))
-    lrs_p0_0.5_w0_0.5_32_taxa_m2a <- sort(2*(p0_0.5_w0_0.5_32_taxa_m2a_lnl-p0_0.5_w0_0.5_32_taxa_m1a_lnl))
-    lrs_p0_0.5_w0_0.5_32_taxa_c2 <- sort(2*(p0_0.5_w0_0.5_32_taxa_c2_lnl-p0_0.5_w0_0.5_32_taxa_m1a_lnl))
-
-    lrs_p0_0.75_w0_0.25_32_taxa_m2a <- sort(2*(p0_0.75_w0_0.25_32_taxa_m2a_lnl-p0_0.75_w0_0.25_32_taxa_m1a_lnl))
-    lrs_p0_0.75_w0_0.25_32_taxa_c2 <- sort(2*(p0_0.75_w0_0.25_32_taxa_c2_lnl-p0_0.75_w0_0.25_32_taxa_m1a_lnl))
-    lrs_p0_0.75_w0_0.5_32_taxa_m2a <- sort(2*(p0_0.75_w0_0.5_32_taxa_m2a_lnl-p0_0.75_w0_0.5_32_taxa_m1a_lnl))
-    lrs_p0_0.75_w0_0.5_32_taxa_c2 <- sort(2*(p0_0.75_w0_0.5_32_taxa_c2_lnl-p0_0.75_w0_0.5_32_taxa_m1a_lnl))
-
-    N <- length(p0_0.25_w0_0.25_32_taxa_m1a_lnl)
+    N <- length(sim5.lnls$bsA)
     x <- seq(0,6.3,length.out=N)
 
-    lrs <- c(x,lrs_p0_0.25_w0_0.25_32_taxa_m2a,lrs_p0_0.25_w0_0.25_32_taxa_c2,
-             x,lrs_p0_0.25_w0_0.5_32_taxa_m2a,lrs_p0_0.25_w0_0.5_32_taxa_c2,
-             x,lrs_p0_0.5_w0_0.25_32_taxa_m2a,lrs_p0_0.5_w0_0.25_32_taxa_c2,
-             x,lrs_p0_0.5_w0_0.5_32_taxa_m2a,lrs_p0_0.5_w0_0.5_32_taxa_c2,
-             x,lrs_p0_0.75_w0_0.25_32_taxa_m2a,lrs_p0_0.75_w0_0.25_32_taxa_c2,
-             x,lrs_p0_0.75_w0_0.5_32_taxa_m2a,lrs_p0_0.75_w0_0.5_32_taxa_c2)
+    lrs <- c(x,lrs1.sim5,lrs2.sim5,
+             x,lrs1.sim6,lrs2.sim6,
+             x,lrs1.sim10,lrs2.sim10,
+             x,lrs1.sim11,lrs2.sim11)
 
-    prob.t <- 1/2+pchisq(x,1)/2
-    cprob <- rep(c(prob.t,rep(1:N/N,2)),6)
+    prob.mx <- 1/2+pchisq(x,1)/2
+    cprob.mx <- rep(c(prob.mx,rep(1:N/N,2)),4)
 
-    cdf.data <- data.frame(lrs,cprob,
-                           weight=rep(c(0.25,0.5,0.75),each=6*N),
-                           omega=rep(c(0.25,0.5),each=3*N,times=3),
-                           model=rep(c('Theory','M2a (C=0)','M2a (C=2)'),each=N,times=6))
+    prob.x <- pchisq(x,1);
+    cprob.x <- rep(c(prob.x,rep(1:N/N,2)),4)
 
-    cdf.plot <- ggplot(cdf.data,aes(lrs,cprob)) +
+    cdf.data <- data.frame(lrs,cprob.mx,
+                           lfg=rep(factor(c('Short','Long'),levels=c('Short','Long')),each=3*N,times=2),
+                           pfg=rep(factor(c('Terminal','Internal'),levels=c('Terminal','Internal')),each=3*N*2),
+                           model=rep(c('MixChi','LR1','LR2'),each=N,times=4))
+
+    cdf.plot <- ggplot(cdf.data,aes(lrs,cprob.mx)) +
         coord_cartesian(xlim=c(0,6), ylim=c(0.5,1)) +
         labs(x="LRS",y=expression("P(X"<="x)")) +
         ##geom_line(aes(color=model,linetype=model),size=.5) +
         geom_line(aes(linetype=model),size=.5) +
         ##scale_color_manual(values=c("black","black","black")) +
-        scale_linetype_manual(values=c("dashed","dotted","solid"),labels=c('M2a (C=0)','M2a (C=2)',expression(chi[0]^2/2 + chi[1]^2/2))) +
+        scale_linetype_manual(values=c("dashed","dotted","solid","solid"),labels=c('LR1','LR2',expression(chi[0]^2/2 + chi[1]^2/2),expression(chi[1]))) +
         scale_y_continuous(breaks=scales::pretty_breaks(n=3)) +
-        facet_grid(weight~omega,labeller=label_bquote(cols=omega[0]*'='*.(omega),rows=p[0]*'='*.(weight)))
+        facet_grid(pfg~lfg)
 
     cdf.plot +
         theme(panel.spacing=unit(0,"lines"),
@@ -282,9 +260,71 @@ Figure \ref{fig:CDF32taxaTL9} shows the estimated LR and modified LR statistic C
               text=element_text(size=16),
               panel.border = element_rect(colour = "black", fill=NA, size=1))
 @
-  \caption[]{CDFs of LR (C=0) and modified LR (C=2) statistics under M1a/M2a nested model pairs for six simulation settings.  For each simulation setting, 10,000 sequence alignments were generated with two site classes, $\omega<1$ and $\omega=1$ using a balanced, 32-taxon tree topology with branch lengths summing to 9.  The value of $\omega_0$ and its weight, $p_0$, used to generate the data are shown as column and row labels.  CDFs for $\chi^2_0/2 + \chi^2_1/2$ are also included.}
-  \label{fig:CDF32taxaTL9}
+  \caption[]{CDFs of LR statistics under branch-site Model A for four simulation settings.  For each setting, 5,000 sequence alignments were generated with equally weighted site classes, $\omega=0$ and $\omega=1$, using a balanced, 8-taxon tree topology with branch lengths summing to 6.  The single foreground branch is either a terminal (\emph{Terminal} row) or internal (\emph{Internal} row) branch that is either 1/10th (\emph{Short} column) or 10 times (\emph{Long} column) the length of the other branches.  CDFs for $\chi^2_0/2 + \chi^2_1/2$ are also included.}
+  \label{fig:CDFNull1FBTL6}
 \end{figure}
+
+\begin{figure}
+    \centering
+<<CDFNull2FBTL6,echo=F,warning=F>>=
+    rm(list=ls())
+    sim5.lnls <- read.csv("../../sims/sim5/lnLs.csv")
+    sim6.lnls <- read.csv("../../sims/sim6/lnLs.csv")
+    sim10.lnls <- read.csv("../../sims/sim10/lnLs.csv")
+    sim11.lnls <- read.csv("../../sims/sim11/lnLs.csv")
+
+    lrs1.sim5 <- sort(2*(sim5.lnls$bsA-sim5.lnls$null1))
+    lrs2.sim5 <- sort(2*(sim5.lnls$bsA-sim5.lnls$null2))
+    lrs1.sim6 <- sort(2*(sim6.lnls$bsA-sim6.lnls$null1))
+    lrs2.sim6 <- sort(2*(sim6.lnls$bsA-sim6.lnls$null2))
+    lrs1.sim10 <- sort(2*(sim10.lnls$bsA-sim10.lnls$null1))
+    lrs2.sim10 <- sort(2*(sim10.lnls$bsA-sim10.lnls$null2))
+    lrs1.sim11 <- sort(2*(sim11.lnls$bsA-sim11.lnls$null1))
+    lrs2.sim11 <- sort(2*(sim11.lnls$bsA-sim11.lnls$null2))
+
+    N <- length(sim5.lnls$bsA)
+    x <- seq(0,6.3,length.out=N)
+
+    lrs <- c(x,lrs1.sim5,lrs2.sim5,
+             x,lrs1.sim6,lrs2.sim6,
+             x,lrs1.sim10,lrs2.sim10,
+             x,lrs1.sim11,lrs2.sim11)
+
+    prob.t <- 1/2+pchisq(x,1)/2
+    cprob <- rep(c(prob.t,rep(1:N/N,2)),4)
+
+    cdf.data <- data.frame(lrs,cprob,
+                           lfg=rep(factor(c('Short','Long'),levels=c('Short','Long')),each=3*N,times=2),
+                           pfg=rep(factor(c('Terminal','Internal'),levels=c('Terminal','Internal')),each=3*N*2),
+                           model=rep(c('Theory','LR1','LR2'),each=N,times=4))
+
+    cdf.plot <- ggplot(cdf.data,aes(lrs,cprob)) +
+        coord_cartesian(xlim=c(0,6), ylim=c(0.5,1)) +
+        labs(x="LRS",y=expression("P(X"<="x)")) +
+        ##geom_line(aes(color=model,linetype=model),size=.5) +
+        geom_line(aes(linetype=model),size=.5) +
+        ##scale_color_manual(values=c("black","black","black")) +
+        scale_linetype_manual(values=c("dashed","dotted","solid"),labels=c('LR1','LR2',expression(chi[0]^2/2 + chi[1]^2/2))) +
+        scale_y_continuous(breaks=scales::pretty_breaks(n=3)) +
+        facet_grid(pfg~lfg)
+
+    cdf.plot +
+        theme(panel.spacing=unit(0,"lines"),
+              panel.background=element_blank(),
+              strip.background=element_blank(),
+              legend.title=element_blank(),
+              legend.text.align=0,
+              legend.key=element_rect(fill="transparent"),
+              legend.position=c(.84,.8),
+              legend.key.width=unit(2.8,"line"),
+              axis.line=element_line(colour="black"),
+              text=element_text(size=16),
+              panel.border = element_rect(colour = "black", fill=NA, size=1))
+@
+  \caption[]{CDFs of LR statistics under branch-site model A for four simulation settings.  For each simulation setting, 5,000 sequence alignments were generated with two site classes, $\omega<1$ and $\omega=1$ using a balanced, 32-taxon tree topology with branch lengths summing to 9.  The value of $\omega_0$ and its weight, $p_0$, used to generate the data are shown as column and row labels.  CDFs for $\chi^2_0/2 + \chi^2_1/2$ are also included.}
+  \label{fig:CDF2}
+\end{figure}
+
 \begin{figure}
     \centering
     <<CDF5taxaTL3,echo=F,warning=F>>=
@@ -966,7 +1006,7 @@ Because $n^{-1/2}S_{n\omega_+}^c$ is a linear transformation of $n^{-1/2}S_n$ wh
 \end{eqnarray}
 Thus $n^{-1/2}S_{n\omega_+}^c/\sqrt{V_{\omega_+}^c}$ is approximately standard normal.  It follows from $Z\sim N(0,1)$ giving $Z^2\sim \chi_1^2$ and $Z^2$ being independent of the event that $Z>0$, that the limiting distribution of $W$ is $\chi_1^2/2 + \chi_0^2/2.$
 
-\bibliographystyle{mbe}
+\bibliographystyle{plain}
 \bibliography{/home/jrm/scm/references.git/refs}
 
 %\section*{Tables}
